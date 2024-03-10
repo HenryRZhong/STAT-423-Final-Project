@@ -24,6 +24,25 @@ Due to the job title column having a large number of categories, we will be grou
 
 # categorizing
 
+```{r}
+# Job Category Word Lists
+# STEM
+STEM <- c(" Technology ", " Digital ", " Science ", " Engineer ", " Software ",
+          " Network ", " Architect ", " Scientist ", " Engineering ", " Research ",
+          " Data ", " Specialist ", " IT ", " Web ", " Developer ",
+          " Stack ", " Researcher ", " Techinical ")
+# Admin
+ADMIN <- c(" Admin ", " Rep ", " Human ", " Recruiter ", " Relations ",
+           " Strategy ", " Manager ", " Director ", " Management ", " Coordinator ",
+           " Coordinator ", " Office ", " Training ", " Supply ", " VP ",
+           " Accountant ", " Resources ", " Principal ", " Executive ", " Administrative ",
+           " Officer ", " Entry ", " HR ", " Operations ", " Project ")
+
+# Business
+
+# Service
+
+```
 
 # starting model
 
