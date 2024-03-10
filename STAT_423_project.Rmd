@@ -101,7 +101,7 @@ job_category <- function(job_titles) {
     i <- 1
     categories <- c()
     for (title in job_titles) {
-      categories[i] <- case_when(check_overlap(title) ~ title,
+      categories[i] <- case_when(check_overlap(title) ~ "OVERLAP",
                         is_STEM(title) ~ "STEM",
                         is_ADMIN(title) ~ "ADMIN",
                         is_BUSINESS(title) ~ "BUSINESS",
