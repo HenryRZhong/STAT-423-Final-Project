@@ -28,12 +28,3 @@ for(word_group in job_words) {
   
 }
 ```
-
-
-```{r}
-BUSINESS <- c(" Account ", " Business ", " Product ", " Capital ", " UX ", " Advertising ", " Quality ", " Development ", " Marketing ", " Finance ", " Sales ", " Financial ", " Associate ", " Social ", " Intelligence ", " Copywriter ", " Advisor ", " Media ", " Public ")
-
-# OTHER <- c(" Assistant ", " Creative ", " Clerk ", " Event ", " Front ", " Desk ", " Junior ", " Consultant ", " Writer ", " Back ", " Analyst ", " Chief ", " Content ", " Representative ", " Producer ", " End ", " Graphic ", " Generalist ", " end ", " Assurance ", " M ", " Chain ", " Driver ", " of ", " and ", " Juniour ", " Senior ", " Man ")
-
-SERVICE <- c(" Customer ", " Success ", " Delivery ", " Service ", " Help ", " Support ")
-```

@@ -39,7 +39,11 @@ ADMIN <- c(" Admin ", " Rep ", " Human ", " Recruiter ", " Relations ",
            " Officer ", " Entry ", " HR ", " Operations ", " Project ")
 
 # Business
+BUSINESS <- c(" Account ", " Business ", " Product ", " Capital ", " UX ", " Advertising ", " Quality ", " Development ", " Marketing ", " Finance ", " Sales ", " Financial ", " Associate ", " Social ", " Intelligence ", " Copywriter ", " Advisor ", " Media ", " Public ")
 
+# Service
+SERVICE <- c(" Customer ", " Success ", " Delivery ", " Service ", " Help ", " Support ")
+```
 # Service
 
 ```
