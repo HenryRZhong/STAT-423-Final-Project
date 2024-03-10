@@ -62,32 +62,41 @@ salary %>% group_by(`Education Level`) %>%
 
 ### Density plot of salary per education level
 ```{r}
+# order education levels
+salary$edu = factor(salary$`Education Level`, levels=c("High School", "Bachelor's", "Master's", "PhD"))
+
 ggplot(data=salary) +
   geom_density_ridges(mapping=aes(x=`Salary`,
-                                  y=`Education Level`,
-                                  fill=`Education Level`),
-                      alpha=0.5)
+                                  y=edu,
+                                  fill=edu),
+                      alpha=0.5, show.legend=F) +
+  labs(title="Salary distribution for each education level",
+       y="Education Level",
+       x="Salary (USD per year)") +
+  scale_x_continuous(breaks=c(0, 50000, 100000, 150000, 200000, 250000))
 ```
 
 ### How does salary change with years of experience relative to education level?
 ```{r}
-p <- ggplot(data=salary) +
+ggplot(data=salary) +
   geom_point(mapping=aes(y=`Salary`, x=`Years of Experience`),
-             alpha=0.4)
-
-p + facet_wrap(~`Education Level`)
+             alpha=0.4) +
+  facet_wrap(~`Education Level`) +
+  labs(title="Salary vs. years of experience for each education level")
 ```
-It is not clear from these scatterplots whether the interaction between education level and years of experience is a significant predictor of salary. However, it looks like the relationship between salary and YOE may not be exactly linear, especially for Master's and PhD groups.
+It is not clear from these scatterplots whether the interaction between education level and years of experience is a significant predictor of salary. However, it looks like the relationship between salary and YOE may not be exactly linear, especially for Master's and PhD groups. Therefore, I will look for a transformation for years of experience.
+
 
 ### Square root transformation of YOE
 ```{r}
 salary <- salary %>% mutate(sqrt_yoe = sqrt(`Years of Experience`))
 
-p <- ggplot(data=salary) +
+ggplot(data=salary) +
   geom_point(mapping=aes(y=`Salary`, x=sqrt_yoe),
-             alpha=0.4)
-
-p + facet_wrap(~`Education Level`)
+             alpha=0.4) +
+  facet_wrap(~`Education Level`) +
+  labs(title="Salary vs. sqrt(years of experience) for each education level",
+       x="Square root of years of experience")
 ```
 To make the relationship more linear I have taken the square root of years of experience.
 
@@ -157,4 +166,4 @@ p.edu_jobs <- salary %>%
 p.edu_jobs
 ```
 
-
+### 

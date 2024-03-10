@@ -119,7 +119,6 @@ Salary_Data <- Salary_Data %>% mutate(Job.Category = job_categories)
 ```
 # Service
 
-```
 
 # starting model
 
