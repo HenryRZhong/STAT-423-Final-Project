@@ -33,16 +33,21 @@ We want to check if age and years of experience are collinear. It makes logical 
 We will use three methods to check the collinearity of age and experience. The first will be a scatterplot of the two variables. If they are unrelated we will see an even spread, and if they are related, there will be a more linear spread. We will also use two functions in R, to find two numbers that would hint towards collinearity, the correlation coefficient and the variance inflation factor. If the correlation coefficient is greater than 0.8 or the variance inflation factor is greater than 10, there is evidence of collinearity. The third test will be fitting a linear regression to just age and experience, with age as the predictor and experience as the response. If the two are collinear, then there will be statistically significant evidence of a linear relationship between the two variables from a t-test.
 
 ```{r}
-Age <- Salary_Data$Age
-Experience <- Salary_Data$Years.of.Experience
+AgeVsExp <- Salary_Data[,c("Age", "Years.of.Experience")]
+AgeVsExp$Age <- as.numeric(AgeVsExp$Age)
+AgeVsExp$Years.of.Experience <- as.numeric(AgeVsExp$Years.of.Experience)
+Age <- as.numeric(AgeVsExp$Age)
+Experience <- as.numeric(AgeVsExp$Years.of.Experience)
 
 plot(Age, Experience, main = "Scatterplot of Age vs Experience")
 ```
 Looking at the scatterplot of age versus experience, we see that there appears to be a linear relationship between the two.
 
 ```{r}
-cor(Salary_Data$Age, Salary_Data$Years.of.Experience)
+cor(AgeVsExp$Age, AgeVsExp$Years.of.Experience, use = "complete.obs")
 ```
+
+Using the correlation function in R gives us a correlation value of 0.9377, which is greater than what we said was needed to consider a collinear relationship possible.
 
 
 
