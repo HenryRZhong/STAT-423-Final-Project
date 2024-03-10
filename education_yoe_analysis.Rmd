@@ -99,6 +99,19 @@ plot(lm.edu_yoe, which=2)
 The interaction is a significant predictor but looks like the residuals may not be centered around 0 for high salary and that they may not be normally distributed?
 
 
+### Use an F-test to compare the above model to one without the interaction
+```{r}
+lm.edu_yoe2 <- lm(`Salary` ~ `Years of Experience` + `Education Level`, data=salary)
+plot(lm.edu_yoe2, which=1)
+plot(lm.edu_yoe2, which=2)
+
+summary(lm.edu_yoe2)
+
+anova(lm.edu_yoe, lm.edu_yoe2)
+```
+
+The F-test shows that at least one interaction term between education level and years of experience is significant. However, both the model with and without the interaction show the same issues of having residuals not centered around 0 and a non-normal qqplot.
+
 ## Maybe unrelated, but what are the typical education levels for selected job titles?
 ```{r}
 p.edu_jobs <- salary %>%
