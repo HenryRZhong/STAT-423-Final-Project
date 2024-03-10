@@ -7,6 +7,7 @@ output: pdf_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+Salary_Data <- read.csv("Salary_Data.csv")
 ```
 
 # Data description
@@ -30,6 +31,20 @@ Due to the job title column having a large number of categories, we will be grou
 We want to check if age and years of experience are collinear. It makes logical sense that they would be, as you would not expect a person fresh out of college to have much experience. And a person who is older could have been is a job for years. But, there could be other factors that cause them to not be related, such as changing jobs or fields, and thus being older with less experience.
 
 We will use three methods to check the collinearity of age and experience. The first will be a scatterplot of the two variables. If they are unrelated we will see an even spread, and if they are related, there will be a more linear spread. We will also use two functions in R, to find two numbers that would hint towards collinearity, the correlation coefficient and the variance inflation factor. If the correlation coefficient is greater than 0.8 or the variance inflation factor is greater than 10, there is evidence of collinearity. The third test will be fitting a linear regression to just age and experience, with age as the predictor and experience as the response. If the two are collinear, then there will be statistically significant evidence of a linear relationship between the two variables from a t-test.
+
+```{r}
+Age <- Salary_Data$Age
+Experience <- Salary_Data$Years.of.Experience
+
+plot(Age, Experience, main = "Scatterplot of Age vs Experience")
+```
+Looking at the scatterplot of age versus experience, we see that there appears to be a linear relationship between the two.
+
+```{r}
+cor(Salary_Data$Age, Salary_Data$Years.of.Experience)
+```
+
+
 
 # Checking for interactions
 
