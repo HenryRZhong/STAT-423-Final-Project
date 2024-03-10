@@ -9,4 +9,26 @@ output: pdf_document
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
+# Data descrioption
+
+What area geographically is this data from?
+
 # categorizing
+
+
+#starting model
+
+
+# collinearity of age and experience
+
+
+# Checking for interactions
+
+
+# Education level impact
+
+
+# Outliers
+
+
+# Final model
