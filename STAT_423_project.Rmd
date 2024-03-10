@@ -7,7 +7,6 @@ output: pdf_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
-library(car)
 Salary_Data <- read.csv("Salary_Data.csv")
 ```
 
