@@ -15,6 +15,11 @@ The data used for this project is the Salary_Data dataset from Kaggle, found [he
 
 The description of the data set does not say where the data is from geographically. However, the data set creator did respond to a comment asking what unit the salary data was in, saying that it was in Indian Rupees(INR). Given this, it is most likely that this data set is from India.
 
+There are 6704 rows and six columns: age (in years), gender (male or female), education level (Bachelor’s, Master’s, or PhD), job title, years of experience, and salary in USD. The numeric variables are age, years of experience, and salary, while gender, education level, and job title are categorical. While education level and gender have predetermined levels, the job title column is freeform; some job titles come up hundreds of times while others only appear once.
+
+Due to the job title column having a large number of categories, we will be grouping categories together to have a more reasonable number of categorical levels for our analysis. Given the arbitrary nature of this, it could potentially have an impact on the significance of our findings of if job title is a significant predictor of salary.
+
+
 # categorizing
 
 
