@@ -9,6 +9,7 @@ output: pdf_document
 knitr::opts_chunk$set(echo = FALSE)
 library(car)
 Salary_Data <- read.csv("Salary_Data.csv")
+Salary_Data <- na.omit(Salary_Data)
 ```
 
 # Data description
@@ -17,7 +18,7 @@ The data used for this project is the Salary_Data dataset from Kaggle, found [he
 
 The description of the data set does not say where the data is from geographically. However, the data set creator did respond to a comment asking what unit the salary data was in, saying that it was in Indian Rupees(INR). Given this, it is most likely that this data set is from India.
 
-There are 6704 rows and six columns: age (in years), gender (male or female), education level (Bachelor’s, Master’s, or PhD), job title, years of experience, and salary in USD. The numeric variables are age, years of experience, and salary, while gender, education level, and job title are categorical. While education level and gender have predetermined levels, the job title column is freeform; some job titles come up hundreds of times while others only appear once.
+There are 6699 complete rows and six columns: age (in years), gender (male, female, or other), education level (Bachelor’s, Master’s, or PhD), job title, years of experience, and salary in USD. The numeric variables are age, years of experience, and salary, while gender, education level, and job title are categorical. While education level and gender have predetermined levels, the job title column is freeform; some job titles come up hundreds of times while others only appear once. Additionally, there are only 14 rows with gender as other, so there is relatively less data for that point
 
 Due to the job title column having a large number of categories, we will be grouping categories together to have a more reasonable number of categorical levels for our analysis. Given the arbitrary nature of this, it could potentially have an impact on the significance of our findings of if job title is a significant predictor of salary.
 
@@ -85,6 +86,11 @@ summary(AVE.lm2)
 Using R to create a linear regression between Age and Years of Experience we see that the t-test gives a very low p-value, less than 0.001. This means that there is strong evidence of a linear relationship between the two variables, matching all of our previous tests. We see that if Age increases by one, years of experience will increase by roughly 0.746. Thus, as we have statistically significant evidence of Age and Years of Experience being collinear, we will not have both of them in our final model.
 
 # Checking for interactions
+
+```{r}
+inter <- lm(Salary ~ Age * Gender * Education.Level, data = Salary_Data)
+summary(inter)
+```
 
 
 # Education level impact

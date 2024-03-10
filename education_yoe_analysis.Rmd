@@ -5,29 +5,47 @@ date: "`r Sys.Date()`"
 output: pdf_document
 ---
 
+## 1. Setup
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(ggridges)
 ```
 
+### Read in the data
 ```{r}
 salary <- read_csv("Salary_Data.csv")
 ```
 
+### Filter NAs
+There are only 3 NA rows in the dataset so we will filter them out.
+```{r}
+salary %>% filter(is.na(`Salary`))
+
+salary <- salary %>% filter(!is.na(`Salary`))
+```
+
+### Check on most common job titles
 ```{r}
 salary %>% group_by(`Job Title`) %>%
   summarize(n_jobs = n()) %>%
   arrange(desc(n_jobs))
 ```
 
+### Checking for salary outliers
+```{r}
+ggplot(data=salary) +
+  geom_boxplot(mapping=aes(x=Salary))
+```
+There are no values of salary that are outliers (outside of 1.5 * IQR as shown in the boxplot).
 
-## Relationship between education level and salary
+
+## 2. Looking at the relationship between education level and salary
 ```{r}
 salary %>% group_by(`Education Level`) %>%
   summarize(n_people = n())
 ```
-There are only 3 NAs so I will filter these out. Some data carpentry needs to be done to combine "Bachelor's" with "Bachelor's Degree", etc.
+Some data carpentry needs to be done to combine "Bachelor's" with "Bachelor's Degree", etc.
 
 ### Data carpentry to combine identical education levels
 ```{r}
@@ -59,11 +77,24 @@ p <- ggplot(data=salary) +
 
 p + facet_wrap(~`Education Level`)
 ```
-It is not clear from these scatterplots whether the interaction between education level and years of experience is a significant predictor of salary.
+It is not clear from these scatterplots whether the interaction between education level and years of experience is a significant predictor of salary. However, it looks like the relationship between salary and YOE may not be exactly linear, especially for Master's and PhD groups.
+
+### Square root transformation of YOE
+```{r}
+salary <- salary %>% mutate(sqrt_yoe = sqrt(`Years of Experience`))
+
+p <- ggplot(data=salary) +
+  geom_point(mapping=aes(y=`Salary`, x=sqrt_yoe),
+             alpha=0.4)
+
+p + facet_wrap(~`Education Level`)
+```
+To make the relationship more linear I have taken the square root of years of experience.
+
 
 ### Testing whether education level:years of experience is a significant predictor of salary
 ```{r}
-lm.edu_yoe <- lm(`Salary` ~ `Years of Experience` * `Education Level`, data=salary)
+lm.edu_yoe <- lm(`Salary` ~ sqrt_yoe * `Education Level`, data=salary)
 summary(lm.edu_yoe)
 ```
 
@@ -74,21 +105,21 @@ high <- salary %>% filter(`Education Level` == "High School")
 mast <- salary %>% filter(`Education Level` == "Master's")
 phd <- salary %>% filter(`Education Level` == "PhD")
 
-ggplot(bach, mapping=aes(x=`Years of Experience`, y=`Salary`)) +
+ggplot(bach, mapping=aes(x=sqrt_yoe, y=`Salary`)) +
   geom_point() +
   geom_abline(intercept=lm.edu_yoe$coefficients[1], slope=lm.edu_yoe$coefficients[2])
 
-ggplot(high, mapping=aes(x=`Years of Experience`, y=`Salary`)) +
+ggplot(high, mapping=aes(x=sqrt_yoe, y=`Salary`)) +
   geom_point() +
   geom_abline(intercept=lm.edu_yoe$coefficients[1] + lm.edu_yoe$coefficients[3],
               slope=lm.edu_yoe$coefficients[2] + lm.edu_yoe$coefficients[6])
 
-ggplot(mast, mapping=aes(x=`Years of Experience`, y=`Salary`)) +
+ggplot(mast, mapping=aes(x=sqrt_yoe, y=`Salary`)) +
   geom_point() +
   geom_abline(intercept=lm.edu_yoe$coefficients[1] + lm.edu_yoe$coefficients[4],
               slope=lm.edu_yoe$coefficients[2] + lm.edu_yoe$coefficients[7])
 
-ggplot(phd, mapping=aes(x=`Years of Experience`, y=`Salary`)) +
+ggplot(phd, mapping=aes(x=sqrt_yoe, y=`Salary`)) +
   geom_point() +
   geom_abline(intercept=lm.edu_yoe$coefficients[1] + lm.edu_yoe$coefficients[5],
               slope=lm.edu_yoe$coefficients[2] + lm.edu_yoe$coefficients[8])
@@ -96,8 +127,21 @@ ggplot(phd, mapping=aes(x=`Years of Experience`, y=`Salary`)) +
 plot(lm.edu_yoe, which=1)
 plot(lm.edu_yoe, which=2)
 ```
-The interaction is a significant predictor but looks like the residuals may not be centered around 0 for high salary and that they may not be normally distributed?
+The interaction is a significant predictor but looks like the residuals may not be normally distributed?
 
+
+### Use an F-test to compare the above model to one without the interaction
+```{r}
+lm.edu_yoe2 <- lm(`Salary` ~ sqrt_yoe + `Education Level`, data=salary)
+plot(lm.edu_yoe2, which=1)
+plot(lm.edu_yoe2, which=2)
+
+summary(lm.edu_yoe2)
+
+anova(lm.edu_yoe, lm.edu_yoe2)
+```
+
+The F-test shows that at least one interaction term between education level and years of experience is significant. However, both the model with and without the interaction show the same issues of having residuals not centered around 0 and a non-normal qqplot.
 
 ## Maybe unrelated, but what are the typical education levels for selected job titles?
 ```{r}
@@ -112,4 +156,5 @@ p.edu_jobs <- salary %>%
 
 p.edu_jobs
 ```
+
 
