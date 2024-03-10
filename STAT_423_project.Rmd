@@ -46,7 +46,6 @@ SERVICE <- c(" Customer ", " Success ", " Delivery ", " Service ", " Help ", " S
 ```
 # Service
 
-```
 
 # starting model
 
