@@ -9,14 +9,16 @@ output: pdf_document
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-# Data descrioption
+# Data description
 
-What area geographically is this data from?
+The data used for this project is the Salary_Data dataset from Kaggle, found [here](https://www.kaggle.com/datasets/mohithsairamreddy/salary-data/data)
+
+The description of the data set does not say where the data is from geographically. However, the data set creator did respond to a comment asking what unit the salary data was in, saying that it was in Indian Rupees(INR). Given this, it is most likely that this data set is from India.
 
 # categorizing
 
 
-#starting model
+# starting model
 
 
 # collinearity of age and experience
