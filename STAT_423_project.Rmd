@@ -7,6 +7,7 @@ output: pdf_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+library(car)
 Salary_Data <- read.csv("Salary_Data.csv")
 ```
 
@@ -33,23 +34,36 @@ We want to check if age and years of experience are collinear. It makes logical 
 We will use three methods to check the collinearity of age and experience. The first will be a scatterplot of the two variables. If they are unrelated we will see an even spread, and if they are related, there will be a more linear spread. We will also use two functions in R, to find two numbers that would hint towards collinearity, the correlation coefficient and the variance inflation factor. If the correlation coefficient is greater than 0.8 or the variance inflation factor is greater than 10, there is evidence of collinearity. The third test will be fitting a linear regression to just age and experience, with age as the predictor and experience as the response. If the two are collinear, then there will be statistically significant evidence of a linear relationship between the two variables from a t-test.
 
 ```{r}
-AgeVsExp <- Salary_Data[,c("Age", "Years.of.Experience")]
+AgeVsExp <- Salary_Data[,c("Salary", "Age", "Years.of.Experience")]
 AgeVsExp$Age <- as.numeric(AgeVsExp$Age)
 AgeVsExp$Years.of.Experience <- as.numeric(AgeVsExp$Years.of.Experience)
-Age <- as.numeric(AgeVsExp$Age)
-Experience <- as.numeric(AgeVsExp$Years.of.Experience)
+Age_S <- as.numeric(AgeVsExp$Age)
+Experience_S <- as.numeric(AgeVsExp$Years.of.Experience)
 
-plot(Age, Experience, main = "Scatterplot of Age vs Experience")
+plot(Age_S, Experience_S, main = "Scatterplot of Age vs Experience",
+     xlab = "Age",
+     ylab = "Experience")
 ```
 Looking at the scatterplot of age versus experience, we see that there appears to be a linear relationship between the two.
 
-```{r}
+```{r echo=TRUE}
 cor(AgeVsExp$Age, AgeVsExp$Years.of.Experience, use = "complete.obs")
 ```
 
 Using the correlation function in R gives us a correlation value of 0.9377, which is greater than what we said was needed to consider a collinear relationship possible.
 
+```{r echo=TRUE}
+AVE.lm <- lm(Salary ~ Age + Years.of.Experience, data = AgeVsExp)
+vif(AVE.lm)
+```
+Creating a quick linear model of Salary predicted by Age and Experience, we can find the Variance Inflation Factor of the two predictors. We see that each of them have a VIF of greater than 8. This again shows us that there is a strong case for collinearity between the two factors.
 
+
+```{r}
+AVE.lm2 <- lm(Years.of.Experience ~ Age, data = AgeVsExp)
+summary(AVE.lm2)
+```
+Using R to create a linear regression between Age and Years of Experience we see that the t-test gives a very low p-value, less than 0.001. This means that there is strong evidence of a linear relationship between the two variables, matching all of our previous tests. We see that if Age increases by one, years of experience will increase by roughly 0.746. Thus, as we have statistically significant evidence of Age and Years of Experience being collinear, we will not have both of them in our final model.
 
 # Checking for interactions
 
