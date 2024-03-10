@@ -1,0 +1,30 @@
+---
+title: "Salary Data Content Analysis"
+output: html_document
+date: "2024-02-29"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+
+```{r}
+salary_data <- read.csv("Salary_Data.csv")
+job_count <- salary_data %>% count(Job.Title)
+words = c()
+word_count = c()
+i <- 1
+job_words <- strsplit(job_count$Job.Title, split=" ")
+job_words <- as.vector(job_words[2:length(job_words)])
+for(word_group in job_words) {
+  for(word in word_group){
+    if(!(word %in% words)){
+      words[i] <- word
+      i <- i + 1
+    }
+  }
+  
+}
+```
