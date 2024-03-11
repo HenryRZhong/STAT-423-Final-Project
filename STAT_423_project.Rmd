@@ -237,11 +237,14 @@ for(i in 1:57){
 tail(significant, n = 21)
 ```
 
-So, to check that these interactions are significant, we will use the AIC and BIC functions. We will start with a fit of salary based on gender, experience, job category and education. I am leaving out age, as we know it to be collinear with experience based on work done above. We will compare this fit to one that also includes the interactions of education with experience, job category, and gender individually; it will also include the interaction between gender and experience. If the AIC and BIC for the fit including interactions is lower, we will conclude that the interactions are significant and should be included in our final model
+So, to check that these interactions are significant, we will use the AIC and BIC functions. We will start with a fit of salary based on gender, experience, job category and education. I am leaving out age, as we know it to be collinear with experience based on work done above. We will compare this fit to one that also includes the interactions of education with experience, job category, and gender individually; it will also include the interaction between gender and experience. If the AIC and BIC for the fit including interactions is lower, we will conclude that the interactions are significant and should be included in our final model. Looking at our results below, this does hold, so we will add the interactions to our final model.
 
 ```{r}
 fit_basic <- lm(Salary ~ Gender + Years.of.Experience + Job.Category + Education, data = Salary_Data)
 fit_interactions <- lm(Salary ~ Gender + Years.of.Experience + Job.Category + Education + Education:Years.of.Experience + Education:Job.Category + Education:Gender + Gender:Years.of.Experience, data = Salary_Data)
+
+AIC(fit_basic, fit_interactions)
+BIC(fit_basic, fit_interactions)
 ```
 
 
