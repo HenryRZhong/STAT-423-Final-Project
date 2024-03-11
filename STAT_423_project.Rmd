@@ -9,6 +9,7 @@ output: pdf_document
 knitr::opts_chunk$set(echo = FALSE)
 library(car)
 library(tidyverse)
+library(MASS)
 Salary_Data <- read.csv("Salary_Data.csv")
 Salary_Data <- na.omit(Salary_Data)
 ```
@@ -241,8 +242,6 @@ So, to check that these interactions are significant, we will use the AIC and BI
 ```{r}
 fit_basic <- lm(Salary ~ Gender + Years.of.Experience + Job.Category + Education, data = Salary_Data)
 fit_interactions <- lm(Salary ~ Gender + Years.of.Experience + Job.Category + Education + Education:Years.of.Experience + Education:Job.Category + Education:Gender + Gender:Years.of.Experience, data = Salary_Data)
-
-
 ```
 
 
