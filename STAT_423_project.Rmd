@@ -19,7 +19,7 @@ The data used for this project is the Salary_Data dataset from Kaggle, found [he
 
 The description of the data set does not say where the data is from geographically. However, the data set creator did respond to a comment asking what unit the salary data was in, saying that it was in Indian Rupees(INR). Given this, it is most likely that this data set is from India.
 
-There are 6699 complete rows and six columns: age (in years), gender (male, female, or other), education level (Bachelor’s, Master’s, or PhD), job title, years of experience, and salary in USD. The numeric variables are age, years of experience, and salary, while gender, education level, and job title are categorical. While education level and gender have predetermined levels, the job title column is freeform; some job titles come up hundreds of times while others only appear once. Additionally, there are only 14 rows with gender as other, so there is relatively less data for that point.
+There are 6698 complete rows and six columns: age (in years), gender (male, female, or other), education level (Bachelor’s, Master’s, or PhD), job title, years of experience, and salary in USD. The numeric variables are age, years of experience, and salary, while gender, education level, and job title are categorical. While education level and gender have predetermined levels, the job title column is freeform; some job titles come up hundreds of times while others only appear once. Additionally, there are only 14 rows with gender as other, so there is relatively less data for that point.
 
 Due to the job title column having a large number of categories, we will be grouping categories together to have a more reasonable number of categorical levels for our analysis. Given the arbitrary nature of this, it could potentially have an impact on the significance of our findings of if job title is a significant predictor of salary.
 
@@ -124,8 +124,8 @@ Salary_Data <- Salary_Data %>% mutate(Job.Category = job_categories)
 We also noticed later on that the Education.Level column had categories that should be put together, such as phD and PhD, and Bachelor's and Bachelor's Degree, where they denoted the same level of education. So, we fixed that to the levels of High School, Bachelor's, Master's, and PhD.
 
 ```{r}
-Ed.LVLs <- unique(Salary_Data$Education.Level)
-Ed.LVLs
+#Ed.LVLs <- unique(Salary_Data$Education.Level)
+#Ed.LVLs
 
 High <- c("High School")
 Bachelor <- c("Bachelor's", "Bachelor's Degree")
@@ -140,8 +140,14 @@ education <- function(ed_lvls) {
     while (i <= n) {
       if(ed_lvls[i] %in% High){
         ED[i] <- "High School"
-      } else {
-        ED[i] <- "other"
+      } else if(ed_lvls[i] %in% Bachelor){
+        ED[i] <- "Bachelor's"
+      } else if(ed_lvls[i] %in% Master) {
+        ED[i] <- "Master's"
+      } else if(ed_lvls[i] %in% PhD) {
+        ED[i] <- "PhD"
+      }else {
+        ED[i] <- NA
       }
       i <- i + 1
     }
@@ -151,18 +157,9 @@ education <- function(ed_lvls) {
 
 ```{r}
 schooling <- education(Salary_Data$Education.Level)
-unique(schooling)
+Salary_Data$Education <- schooling
+Salary_Data <- na.omit(Salary_Data)
 ```
-
-
-```{r}
-Bachelor <- c("Bachelor's", "Bachelor's Degree")
-Master <- c("Master's", "Master's Degree")
-PhD <- c("PhD", "phD")
-
-"phD" %in% PhD
-```
-
 
 
 # Service
@@ -212,8 +209,29 @@ Using R to create a linear regression between Age and Years of Experience we see
 # Checking for interactions
 
 ```{r}
-inter <- lm(Salary ~ (Age + Gender + Education.Level + Years.of.Experience + Job.Category)^2, data = Salary_Data)
-summary(inter)
+inter <- lm(Salary ~ (Age + Gender + Education + Years.of.Experience + Job.Category)^2, data = Salary_Data)
+inter_summary <- summary(inter)
+
+# Get the coefficient matrix
+coefs <- inter_summary$coefficients
+
+# Identify the significant variables
+vars <- rownames(coefs)[which(coefs[, 4] < 0.05)]
+#vars
+
+significant <- data.frame(matrix(NA, nrow = 30, ncol = 5))
+colnames(significant) <- c("predictor", "estimate", "Std.Error", "t value", "p value")
+significant$predictor <- vars
+
+for(i in 1:30){
+  r <- 1
+  if(coefs[i,4] < 0.05) {
+    significant[r,5] <- coefs[i,4]
+    r <- r + 1
+  }
+}
+
+significant
 ```
 
 
