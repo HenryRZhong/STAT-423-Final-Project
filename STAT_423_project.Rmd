@@ -118,6 +118,53 @@ job_category <- function(job_titles) {
 job_categories <- job_category(Salary_Data$Job.Title)
 Salary_Data <- Salary_Data %>% mutate(Job.Category = job_categories)
 ```
+
+# Education
+
+We also noticed later on that the Education.Level column had categories that should be put together, such as phD and PhD, and Bachelor's and Bachelor's Degree, where they denoted the same level of education. So, we fixed that to the levels of High School, Bachelor's, Master's, and PhD.
+
+```{r}
+Ed.LVLs <- unique(Salary_Data$Education.Level)
+Ed.LVLs
+
+High <- c("High School")
+Bachelor <- c("Bachelor's", "Bachelor's Degree")
+Master <- c("Master's", "Master's Degree")
+PhD <- c("PhD", "phD")
+
+
+education <- function(ed_lvls) {
+    i <- 1
+    ED <- c()
+    n <- length(ed_lvls)
+    while (i <= n) {
+      if(ed_lvls[i] %in% High){
+        ED[i] <- "High School"
+      } else {
+        ED[i] <- "other"
+      }
+      i <- i + 1
+    }
+    return(ED)
+}
+```
+
+```{r}
+schooling <- education(Salary_Data$Education.Level)
+unique(schooling)
+```
+
+
+```{r}
+Bachelor <- c("Bachelor's", "Bachelor's Degree")
+Master <- c("Master's", "Master's Degree")
+PhD <- c("PhD", "phD")
+
+"phD" %in% PhD
+```
+
+
+
 # Service
 
 
@@ -165,7 +212,7 @@ Using R to create a linear regression between Age and Years of Experience we see
 # Checking for interactions
 
 ```{r}
-inter <- lm(Salary ~ Age * Gender * Education.Level, data = Salary_Data)
+inter <- lm(Salary ~ (Age + Gender + Education.Level + Years.of.Experience + Job.Category)^2, data = Salary_Data)
 summary(inter)
 ```
 
