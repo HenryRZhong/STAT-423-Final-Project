@@ -190,17 +190,17 @@ Salary_Data <- na.omit(Salary_Data)
 
 ### NAs
 
-Finally, there were only 6 rows of our 6704 with N/A or missing values, two of these being completely empty rows and the remaining three with N/A values in the salary and years of experience columns. These 5 rows were filtered out of our processed dataset.
+Finally, there were only 6 rows of our 6704 with N/A or missing values, two of these being completely empty rows and the remaining three with N/A values in the salary and years of experience columns. These 6 rows were filtered out of our processed dataset.
 
 
 
 # Service
 
 
-# starting model
+# Starting Model
 
 
-# collinearity of age and experience
+# Collinearity of Age and Experience
 
 We want to check if age and years of experience are collinear. It makes logical sense that they would be, as you would not expect a person fresh out of college to have much experience. And a person who is older could have been is a job for years. But, there could be other factors that cause them to not be related, such as changing jobs or fields, and thus being older with less experience.
 
@@ -238,7 +238,7 @@ summary(AVE.lm2)
 ```
 Using R to create a linear regression between Age and Years of Experience we see that the t-test gives a very low p-value, less than 0.001. This means that there is strong evidence of a linear relationship between the two variables, matching all of our previous tests. We see that if Age increases by one, years of experience will increase by roughly 0.746. Thus, as we have statistically significant evidence of Age and Years of Experience being collinear, we will not have both of them in our final model.
 
-# Checking for interactions
+# Checking for Interactions
 
 To check for interactions, we fit a linear model including all predictors, and all of their interactions. From those, we selected only the interactions that were statistically significant at the 0.05 level of probability. This gives us the following interactions as significant. Education has multiple significant interactions with both age and experience. Education also has multiple significant interactions with job category. And, looking at rows 16 to 19, gender appears to have a significant interaction with education, and years of experience.
 
@@ -284,7 +284,7 @@ summary(fit_basic)
 
 
 
-# Education level impact
+# Education Level Impact
 
 
 # Outliers
@@ -295,4 +295,4 @@ To find any possible outliers in our data, we will find the Cook's Distance for 
 plot(fit_interactions, which = 4)
 ```
 
-# Final model
+# Final Model
