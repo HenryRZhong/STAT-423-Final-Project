@@ -14,7 +14,20 @@ Salary_Data <- read.csv("Salary_Data.csv")
 Salary_Data <- na.omit(Salary_Data)
 ```
 
-# Data description
+# Authors
+
+Hayden Zhong [henryz3@uw.edu] – First author of __ sections
+Lorenzo Wahaus [ldw539@uw.edu] – First author of __ sections
+Sophia Chiesa [sc933@uw.edu] – First author of Introduction, , __ sections
+
+
+# Introduction
+
+The world of career salaries, especially from the perspective of undergraduate students on the cusp of joining the full-time workforce, is complex and enigmatic. Due to legal and cultural confidentiality, and the fact that so many hidden factors seem to impact a job’s salary, it can be difficult to develop a clear idea of how salaries of different jobs compare. In addition, we were curious how salaries vary over demographic groups such as gender and education level. These analyses can help reveal potential salary inequity trends in the case of gender, and help advise and inform educational choices in the case of education level. Our overall goal is to develop a better understanding of the salary landscape of the current workforce.
+
+The questions our group sought to answer include, first and primarily, which factors are the strongest predictors of salary. Secondly, as both age and years of experience are included in the data, we wanted to see how collinear these columns are. It makes logical sense that they would be, as you would not expect a person fresh out of college to have much experience. But, there could be other factors that cause them to not be related, such as changing jobs or fields, and thus being older with less experience. Additionally, we want to investigate how big of an effect education level has on salary, especially with added years of experience. This question was motivated by the idea that if having a Master’s degree or PhD provides only a slight increase in salary over having a Bachelor’s at the end of a career, then the degree may not be financially worthwhile.
+
+# Data Description
 
 The data used for this project is the Salary_Data dataset from Kaggle, found [here](https://www.kaggle.com/datasets/mohithsairamreddy/salary-data/data)
 
@@ -24,7 +37,14 @@ There are 6698 complete rows and six columns: age (in years), gender (male, fema
 
 Due to the job title column having a large number of categories, we will be grouping categories together to have a more reasonable number of categorical levels for our analysis. Given the arbitrary nature of this, it could potentially have an impact on the significance of our findings of if job title is a significant predictor of salary.
 
-# categorizing
+# Data Processing
+
+The dataset as sourced from Kaggle is generally clean and ready-to-use. However, some data processing was needed for the job title and education level columns. In the raw dataset, the job title column contains 192 unique job title strings. In addition, some job titles contain a seniority level (“Junior”, “Senior”, “Principal”, etc.) while most don’t. In order to make this column usable for our regression and analysis, we chose to ignore the seniority level included in some jobs and sorted all job titles into one category out of STEM, Business, Administrative, Service, and Other. [elaborate?]
+
+The second step of our data processing involved normalizing how education levels were recorded. All education levels in the dataset fall under the categories of High School, Bachelor’s, Master’s, or PhD, but there were some inconsistencies in capitalization and punctuation within these groups. Therefore, we normalized the data by simply replacing all variations of one of these categories with one of the four education forms listed above in order to maintain the accuracy of analyses conducted on this column.
+
+
+### Job Title Categorizing
 
 ```{r}
 # Job Category Word Lists
@@ -126,7 +146,7 @@ job_categories <- job_category(Salary_Data$Job.Title)
 Salary_Data <- Salary_Data %>% mutate(Job.Category = job_categories)
 ```
 
-# Education
+### Education Levels Normalization
 
 We also noticed later on that the Education.Level column had categories that should be put together, such as phD and PhD, and Bachelor's and Bachelor's Degree, where they denoted the same level of education. So, we fixed that to the levels of High School, Bachelor's, Master's, and PhD.
 
@@ -167,6 +187,11 @@ schooling <- education(Salary_Data$Education.Level)
 Salary_Data$Education <- schooling
 Salary_Data <- na.omit(Salary_Data)
 ```
+
+### NAs
+
+Finally, there were only 5 rows of our 6704 with N/A values, two of these being completely empty rows and the remaining three with N/A values in the salary and years of experience columns. These 5 rows were filtered out of our processed dataset.
+
 
 
 # Service
