@@ -190,7 +190,7 @@ Salary_Data <- na.omit(Salary_Data)
 
 ### NAs
 
-Finally, there were only 5 rows of our 6704 with N/A values, two of these being completely empty rows and the remaining three with N/A values in the salary and years of experience columns. These 5 rows were filtered out of our processed dataset.
+Finally, there were only 6 rows of our 6704 with N/A or missing values, two of these being completely empty rows and the remaining three with N/A values in the salary and years of experience columns. These 5 rows were filtered out of our processed dataset.
 
 
 
