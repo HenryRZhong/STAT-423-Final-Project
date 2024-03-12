@@ -253,6 +253,10 @@ AIC(fit_basic, fit_interactions)
 BIC(fit_basic, fit_interactions)
 ```
 
+```{r}
+summary(fit_basic)
+```
+
 
 
 # Education level impact
@@ -260,5 +264,10 @@ BIC(fit_basic, fit_interactions)
 
 # Outliers
 
+To find any possible outliers in our data, we will find the Cook's Distance for each of the data points. If any data point has a Cook's distance greater than 0.5, we will look into removing it as it would potentially be an outlier. The model that we will use to calculate this is the interactions fit model, as seen in the Interactions section, as it is our most complete model at this point. Looking at the plot, we see that all but one of the points have a cook's distance of less than 0.05. The 111th data point has a relatively high cook's distance between 0.30 and 0.35. But, it is less than 0.5, so we do not have enough evidence to consider any points an outlier to be removed.
+
+```{r}
+plot(fit_interactions, which = 4)
+```
 
 # Final model
