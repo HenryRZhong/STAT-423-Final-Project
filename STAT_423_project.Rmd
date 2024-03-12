@@ -112,6 +112,12 @@ job_category <- function(job_titles) {
     }
     return(categories)
 }
+
+# Takes care of overlapping categorizations for job titles
+STEM.overlap <- c("Chief Data Officer", "Chief Technology Officer", "Data Entry Clerk", "Director of Data Science", "Director of Engineering", "IT Manager", "IT Support", "IT Support Specialist", "Principal Engineer", "Principal Scientist", "Research Director", "Senior IT Project Manager", "Senior IT Support Specialist", "Senior Project Engineer", "Software Engineer Manager", "Software Manager", "Software Project Manager", "Technical Support Specialist", "UX Researcher")
+ADMIN.overlap <- c("Director of Human Capital", "Project Engineer", "Senior HR Specialist", "Senior Human Resources Specialist", "Senior Training Specialist", "Training Specialist")
+BUSINESS.overlap <- c("Account Manager", "Business Development Manager", "Content Marketing Manager", "Digital Marketing Manager", "Digital Marketing Specialist", "Director of Business Development", "Director of Finance", "Director of Marketing", "Director of Product Management", "Director of Sales", "Director of Sales and Marketing", "Financial Manager", "Junior Account Manager", "Junior Advertising Coordinator", "Junior Business Operations Analyst", "Junior Marketing Coordinator", "Junior Marketing Manager", "Junior Marketing Specialist", "Junior Product Manager", "Junior Social Media Manager, Junior Social Media Specialist", "Marketing Coordinator", "Marketing Director", "Marketing Manager", "Marketing Specialist", "Product Manager", "Product Marketing Manager", "Public Relations Manager", "Sales Director", "Sales Executive", "Sales Manager", "Sales Operations Manager", "Senior Account Executive", "Senior Account Manager", "Senior Business Development Manager", "Senior Financial Manager", "Senior Marketing Coordinator", "Senior Marketing Manager", "Senior Marketing Specialist", "Senior Product Development Manager", "Senior Product Manager", "Senior Product Marketing Manager", "Senior Sales Manager", "Social Media Manager", "Social Media Specialist", "VP of Finance")
+SERVICE.overlap <- c("Customer Service Manager", "Customer Service Rep", "Customer Success Manager", "Customer Success Rep", "Junior Customer Support Specialist")
 ```
 
 ```{r}
