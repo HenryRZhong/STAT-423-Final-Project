@@ -406,9 +406,15 @@ plot(fit_interactions, which = 4)
 
 # Final model
 
-```{r}
-final.LM <- lm(Salary ~ Gender + sqrt_yoe + Job.Category + Education:sqrt_yoe + Education:Job.Category + Education:Gender + Gender:sqrt_yoe, data = Salary_Data)
+Based on all of our previous data, we decided to make our final model be Salary predicted by gender, the square root of years of education, job category, Education, and interactions of Education with the other three, and the  interaction between gender and square root years of experience. Running a stepwise AIC function, it did remove the interaction between gender and square root years of experience. So, our final model did not include that
 
-summary(final.LM)
+```{r}
+final.LM1 <- lm(Salary ~ Gender + sqrt_yoe + Job.Category + Education + Education:sqrt_yoe + Education:Job.Category + Education:Gender + Gender:sqrt_yoe, data = Salary_Data)
+
+#summary(final.LM1)
+
+#step(final.LM1, direction = "both", k=2)
+
+final.LM1 <- lm(Salary ~ Gender + sqrt_yoe + Job.Category + Education + Education:sqrt_yoe + Education:Job.Category + Education:Gender, data = Salary_Data)
 ```
 
