@@ -191,7 +191,7 @@ job_categories <- job_category(Salary_Data$Job.Title)
 Salary_Data <- Salary_Data %>% mutate(Job.Category = job_categories)
 ```
 
-
+The new variable can now be used in our linear regression analysis. One potential issue with the validity of this statistical analysis, is that the job categorizations we designated are somewhat arbitrary particularly in the case that we had overlap between job titles. This could potentially compromise the statistical power of any analysis of the job category variable.
 
 ### Education Levels Normalization
 
