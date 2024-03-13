@@ -432,9 +432,9 @@ When verifying the assumptions of our model, we found that the residuals are gen
 
 # Conclusion
 
-Our final model finds that salary is strongly predicted by many factors, including gender, the square root of years of education, job category, education, and some interactions between them. Notably, the interaction of education and square root years of experience was significant, but the interaction between gender and years of experience was not. This suggests that while different genders did have different salaries on average (the male group having a 4906 INR increase over the female group), there is no evidence of different increases in salary with added experience.
+Our final model finds that salary is strongly predicted by many factors, including level of education, job category, education, and some interactions between them. Notably, the interaction of education and square root years of experience was significant, but the interaction between gender and years of experience was not. This suggests that while different genders did have different salaries on average (the male group having a 4906 INR increase over the female group), there is no evidence of different increases in salary with added experience.
 
-We found that age and years of experience are strongly collinear, which suggests that most individuals in the dataset stay in the same industry for most of their career rather than switching. For job categories, the STEM category had on average the highest salary. This agrees with our expectations that jobs such as those in the tech industry would be paid the highest. One question we could investigate next is whether job category is correlated with education level, since it is possible that people in STEM jobs are likely to have higher education along with higher salaries.
+We found that age and years of experience are strongly collinear, which suggests that most individuals sampled in the data set stayed in the same industry for most of their career. For job categories, the STEM category had on average the highest salary. This that jobs in tech industries have highest pay. One question we could investigate next is whether job category is correlated with education level, since it is possible that people in STEM jobs are likely to have a higher level of education.
 
 # References
 
