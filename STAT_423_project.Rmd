@@ -46,6 +46,20 @@ The second step of our data processing involved normalizing how education levels
 
 ### Job Title Categorizing
 
+For our analysis of the Salary Dataframe, we wanted to do linear regression of the salary based on the type of job someone was employed in. The first instinct would be to use the `Job.Title` column of our dataframe. The problem with this approach is that there are way too many job titles that were listed in the data there were `r length(Salary_Data %>% count(Job.Title)$Job.Title)` different job titles listed in the dataset, which would make any categorical regression nigh impossible.
+
+So we decided to categorize our job titles into different job categories which correspond to different kinds of jobs. The 5 levels for our `Job.Category` variable are `STEM, BUSINESS, ADMIN, SERVICE, and OTHER`. 
+
+- `STEM` describes scientific and technical jobs, like computer programming, scientific research, and engineering. 
+
+- `BUSINESS` refers to any jobs involving the financial and marketing aspects of running businesses and companies. 
+
+- `ADMIN` refers to managerial and administrative jobs, involves project management, training, and human resource management. 
+
+- `SERVICE` refers to jobs the involve mainly interacting with customers and helping them in some way
+
+- `OTHER` refers to jobs that don't fit any of the categories listed above
+
 ```{r}
 # Job Category Word Lists
 # STEM
@@ -119,32 +133,64 @@ check_overlap <- function(title) {
   return(FALSE)
 }
 
+# Takes care of overlapping categorizations for job titles
+STEM.overlap <- c("Chief Data Officer", "Chief Technology Officer", "Data Entry Clerk", "Director of Data Science", "Director of Engineering", "IT Manager", "IT Support", "IT Support Specialist", "Principal Engineer", "Principal Scientist", "Research Director", "Senior IT Project Manager", "Senior IT Support Specialist", "Senior Project Engineer", "Software Engineer Manager", "Software Manager", "Software Project Manager", "Technical Support Specialist", "UX Researcher")
+ADMIN.overlap <- c("Director of Human Capital", "Project Engineer", "Senior HR Specialist", "Senior Human Resources Specialist", "Senior Training Specialist", "Training Specialist")
+BUSINESS.overlap <- c("Account Manager", "Business Development Manager", "Content Marketing Manager", "Digital Marketing Manager", "Digital Marketing Specialist", "Director of Business Development", "Director of Finance", "Director of Marketing", "Director of Product Management", "Director of Sales", "Director of Sales and Marketing", "Financial Manager", "Junior Account Manager", "Junior Advertising Coordinator", "Junior Business Operations Analyst", "Junior Marketing Coordinator", "Junior Marketing Manager", "Junior Marketing Specialist", "Junior Product Manager", "Junior Social Media Manager", "Junior Social Media Specialist", "Marketing Coordinator", "Marketing Director", "Marketing Manager", "Marketing Specialist", "Product Manager", "Product Marketing Manager", "Public Relations Manager", "Sales Director", "Sales Executive", "Sales Manager", "Sales Operations Manager", "Senior Account Executive", "Senior Account Manager", "Senior Business Development Manager", "Senior Financial Manager", "Senior Marketing Coordinator", "Senior Marketing Director","Senior Marketing Manager", "Senior Marketing Specialist", "Senior Product Development Manager", "Senior Product Manager", "Senior Product Marketing Manager", "Senior Sales Manager", "Social Media Manager", "Social Media Specialist", "VP of Finance")
+SERVICE.overlap <- c("Customer Service Manager", "Customer Service Rep", "Customer Success Manager", "Customer Success Rep", "Junior Customer Support Specialist")
+sort.overlap <- function(job_titles) {
+  i <- 1
+  categories <- c()
+  for(title in job_titles) {
+    if(title %in% STEM.overlap) {
+      categories[i] <- "STEM"
+    } else if(title %in% ADMIN.overlap) {
+      categories[i] <- "ADMIN"
+    } else if(title %in% BUSINESS.overlap) {
+      categories[i] <- "BUSINESS"
+    } else if(title %in% SERVICE.overlap) {
+      categories[i] <- "SERVICE"
+    } else {
+      categories[i] <- title
+    }
+    i <- i + 1
+  }
+  return(categories)
+}
+
 job_category <- function(job_titles) {
     i <- 1
     categories <- c()
     for (title in job_titles) {
-      categories[i] <- case_when(check_overlap(title) ~ "OVERLAP",
+      if(title %in% STEM.overlap) {
+        categories[i] <- "STEM"
+      } else if(title %in% ADMIN.overlap) {
+        categories[i] <- "ADMIN"
+      } else if(title %in% BUSINESS.overlap) {
+        categories[i] <- "BUSINESS"
+      } else if(title %in% SERVICE.overlap) {
+        categories[i] <- "SERVICE"
+      } else {
+        categories[i] <- case_when(check_overlap(title) ~ "OVERLAP",
                         is_STEM(title) ~ "STEM",
                         is_ADMIN(title) ~ "ADMIN",
                         is_BUSINESS(title) ~ "BUSINESS",
                         is_SERVICE(title) ~ "SERVICE",
                         TRUE ~ "OTHER")
+      }
       i <- i + 1
     }
     return(categories)
 }
-
-# Takes care of overlapping categorizations for job titles
-STEM.overlap <- c("Chief Data Officer", "Chief Technology Officer", "Data Entry Clerk", "Director of Data Science", "Director of Engineering", "IT Manager", "IT Support", "IT Support Specialist", "Principal Engineer", "Principal Scientist", "Research Director", "Senior IT Project Manager", "Senior IT Support Specialist", "Senior Project Engineer", "Software Engineer Manager", "Software Manager", "Software Project Manager", "Technical Support Specialist", "UX Researcher")
-ADMIN.overlap <- c("Director of Human Capital", "Project Engineer", "Senior HR Specialist", "Senior Human Resources Specialist", "Senior Training Specialist", "Training Specialist")
-BUSINESS.overlap <- c("Account Manager", "Business Development Manager", "Content Marketing Manager", "Digital Marketing Manager", "Digital Marketing Specialist", "Director of Business Development", "Director of Finance", "Director of Marketing", "Director of Product Management", "Director of Sales", "Director of Sales and Marketing", "Financial Manager", "Junior Account Manager", "Junior Advertising Coordinator", "Junior Business Operations Analyst", "Junior Marketing Coordinator", "Junior Marketing Manager", "Junior Marketing Specialist", "Junior Product Manager", "Junior Social Media Manager, Junior Social Media Specialist", "Marketing Coordinator", "Marketing Director", "Marketing Manager", "Marketing Specialist", "Product Manager", "Product Marketing Manager", "Public Relations Manager", "Sales Director", "Sales Executive", "Sales Manager", "Sales Operations Manager", "Senior Account Executive", "Senior Account Manager", "Senior Business Development Manager", "Senior Financial Manager", "Senior Marketing Coordinator", "Senior Marketing Manager", "Senior Marketing Specialist", "Senior Product Development Manager", "Senior Product Manager", "Senior Product Marketing Manager", "Senior Sales Manager", "Social Media Manager", "Social Media Specialist", "VP of Finance")
-SERVICE.overlap <- c("Customer Service Manager", "Customer Service Rep", "Customer Success Manager", "Customer Success Rep", "Junior Customer Support Specialist")
 ```
 
 ```{r}
 job_categories <- job_category(Salary_Data$Job.Title)
+# job_categories <- sort.overlap(job_categories)
 Salary_Data <- Salary_Data %>% mutate(Job.Category = job_categories)
 ```
+
+
 
 ### Education Levels Normalization
 
