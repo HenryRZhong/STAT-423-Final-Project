@@ -8,7 +8,7 @@ knitr::opts_chunk$set(echo = FALSE, fig.width=7, fig.height=4)
 library(car)
 library(tidyverse)
 library(MASS)
-library(ggridges)
+# library(ggridges)
 Salary_Data <- read.csv("Salary_Data.csv")
 Salary_Data <- na.omit(Salary_Data)
 ```
@@ -194,7 +194,7 @@ The new variable can now be used in our linear regression analysis. One potentia
 ```{r}
 # Create linear model for response Salary, and predictors Years.of.Experience, and Job.Category
 Job.Salary.fit <- lm(Salary ~ Job.Category + Years.of.Experience, data=Salary_Data)
-summary(Job.Salary.fit)
+summary(Job.Salary.fit)$coefficients
 ```
 
 Looking at the job category linear model `Job.Category` does appear to be a strong predictor of `Salary` with all levels appearing to be statistically significant without accounting for any Family-Wise Error Rate Corrections.
