@@ -194,7 +194,16 @@ Finally, there were only 6 rows of our 6704 with N/A or missing values, two of t
 
 
 
-# Service
+# Linearity check
+
+Before doing a linear model, we want to check that the predictors and response variables have a linear relationship. So, as age and experience are our numerical predictors, we will make a scatterplot of each of them compared to salary. Looking at the scaterplots, we see that they both appear to have a linear relationship, so a linear model does make sense in this case.
+
+```{r}
+par(mfrow = c(1, 2))
+plot(Salary_Data$Age, Salary_Data$Salary)
+plot(Salary_Data$Years.of.Experience, Salary_Data$Salary)
+```
+
 
 
 # Starting Model
