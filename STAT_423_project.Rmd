@@ -20,7 +20,6 @@ Hayden Zhong [henryz3@uw.edu] – First author of __ sections
 Lorenzo Wahaus [ldw539@uw.edu] – First author of Linearity, collinearity, interactions, and outliers sections
 Sophia Chiesa [sc933@uw.edu] – First author of Introduction, , __ sections
 
-
 # Introduction
 
 The world of career salaries, especially from the perspective of undergraduate students on the cusp of joining the full-time workforce, is complex and enigmatic. Due to legal and cultural confidentiality, and the fact that so many hidden factors seem to impact a job’s salary, it can be difficult to develop a clear idea of how salaries of different jobs compare. In addition, we were curious how salaries vary over demographic groups such as gender and education level. These analyses can help reveal potential salary inequity trends in the case of gender, and help advise and inform educational choices in the case of education level. Our overall goal is to develop a better understanding of the salary landscape of the current workforce.
@@ -339,13 +338,34 @@ BIC(fit_basic, fit_interactions)
 
 # Education Level Impact
 
+Our next step is to examine how salary changes with years of experience relative to education level. As our initial scatterplots showed a curved relationship between years of experience and salary, we have taken a square root transformation of years of experience which is plotted below.
+
+```{r}
+Salary_Data <- Salary_Data %>% mutate(sqrt_yoe = sqrt(`Years.of.Experience`))
+
+ggplot(data=Salary_Data) +
+  geom_point(mapping=aes(y=`Salary`, x=sqrt_yoe),
+             alpha=0.3) +
+  facet_wrap(~`edu_ordered`) +
+  labs(title="Salary vs. sqrt(years of experience) for each education level",
+       x="Square root of years of experience")
+```
+
+The scatterplot does not show any clear differences between the linear trends of salary vs. years of experience for each education group. To examine the relationship more closely we constructed a linear model using only square root of years of experience, education level, and their interaction as predictors of salary. 
+
+```{r}
+lm.edu_yoe <- lm(Salary ~ Education*sqrt_yoe, data=Salary_Data)
+summary(lm.edu_yoe)
+```
+
+In agreement with the analysis of interactions above, the interaction between education level and square root of years of experience is significant at the $\alpha=0.01$ level for all education levels tested. That is, the change in salary for increased years of experience is different on average for different education levels. 
 
 # Outliers
 
 To find any possible outliers in our data, we will find the Cook's Distance for each of the data points. If any data point has a Cook's distance greater than 0.5, we will look into removing it as it would potentially be an outlier. The model that we will use to calculate this is the interactions fit model, as seen in the Interactions section, as it is our most complete model at this point. Looking at the plot, we see that all but one of the points have a cook's distance of less than 0.05. The 111th data point has a relatively high cook's distance between 0.30 and 0.35. But, it is less than 0.5, so we do not have enough evidence to consider any points an outlier to be removed.
-
 ```{r}
 plot(fit_interactions, which = 4)
 ```
 
-# Final Model
+
+# Final model
