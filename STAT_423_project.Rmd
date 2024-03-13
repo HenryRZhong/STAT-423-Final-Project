@@ -18,7 +18,7 @@ Salary_Data <- na.omit(Salary_Data)
 
 Hayden Zhong [henryz3@uw.edu] – First author of __ sections
 Lorenzo Wahaus [ldw539@uw.edu] – First author of Linearity, collinearity, interactions, and outliers sections
-Sophia Chiesa [sc933@uw.edu] – First author of Introduction, , __ sections
+Sophia Chiesa [sc933@uw.edu] – First author of Introduction, Education Level Impact sections
 
 # Introduction
 
@@ -38,10 +38,7 @@ Due to the job title column having a large number of categories, we will be grou
 
 # Data Processing
 
-The dataset as sourced from Kaggle is generally clean and ready-to-use. However, some data processing was needed for the job title and education level columns. In the raw dataset, the job title column contains 192 unique job title strings. In addition, some job titles contain a seniority level (“Junior”, “Senior”, “Principal”, etc.) while most don’t. In order to make this column usable for our regression and analysis, we chose to ignore the seniority level included in some jobs and sorted all job titles into one category out of STEM, Business, Administrative, Service, and Other. [elaborate?]
-
-The second step of our data processing involved normalizing how education levels were recorded. All education levels in the dataset fall under the categories of High School, Bachelor’s, Master’s, or PhD, but there were some inconsistencies in capitalization and punctuation within these groups. Therefore, we normalized the data by simply replacing all variations of one of these categories with one of the four education forms listed above in order to maintain the accuracy of analyses conducted on this column.
-
+The dataset as sourced from Kaggle is generally clean and ready-to-use. However, some data processing was needed for the job title and education level columns.
 
 ### Job Title Categorizing
 
@@ -334,8 +331,6 @@ fit_interactions <- lm(Salary ~ Gender + Years.of.Experience + Job.Category + Ed
 AIC(fit_basic, fit_interactions)
 BIC(fit_basic, fit_interactions)
 ```
-
-
 
 
 # Education Level Impact
