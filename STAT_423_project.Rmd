@@ -415,6 +415,8 @@ final.LM1 <- lm(Salary ~ Gender + sqrt_yoe + Job.Category + Education + Educatio
 
 #step(final.LM1, direction = "both", k=2)
 
-final.LM1 <- lm(Salary ~ Gender + sqrt_yoe + Job.Category + Education + Education:sqrt_yoe + Education:Job.Category + Education:Gender, data = Salary_Data)
+final.LM2 <- lm(Salary ~ Gender + sqrt_yoe + Job.Category + Education + Education:sqrt_yoe + Education:Job.Category + Education:Gender, data = Salary_Data)
+
+summary(final.LM2)
 ```
 
