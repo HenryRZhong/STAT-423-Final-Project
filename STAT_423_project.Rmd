@@ -342,18 +342,21 @@ BIC(fit_basic, fit_interactions)
 
 ```{r}
 # order education levels
-salary$edu = factor(salary$`Education Level`, levels=c("High School", "Bachelor's", "Master's", "PhD"))
+Salary_Data$edu_ordered = factor(Salary_Data$Education,
+                                 levels=c("High School", "Bachelor's", "Master's", "PhD"))
 
-ggplot(data=salary) +
+ggplot(data=Salary_Data) +
   geom_density_ridges(mapping=aes(x=`Salary`,
-                                  y=edu,
-                                  fill=edu),
+                                  y=edu_ordered,
+                                  fill=edu_ordered),
                       alpha=0.5, show.legend=F) +
   labs(title="Salary distribution for each education level",
        y="Density per education level",
        x="Salary (USD per year)") +
   scale_x_continuous(breaks=c(0, 50000, 100000, 150000, 200000, 250000))
 ```
+
+
 
 Our next step is to examine how salary changes with years of experience relative to education level. As our initial scatterplots showed a curved relationship between years of experience and salary, we have taken a square root transformation of years of experience which is plotted below.
 
