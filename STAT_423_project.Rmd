@@ -259,7 +259,6 @@ plot(Salary_Data$Age, Salary_Data$Salary)
 plot(Salary_Data$Years.of.Experience, Salary_Data$Salary)
 ```
 
-
 # Collinearity of Age and Experience
 
 We want to check if age and years of experience are collinear. It makes logical sense that they would be, as you would not expect a person fresh out of college to have much experience. And a person who is older could have been is a job for years. But, there could be other factors that cause them to not be related, such as changing jobs or fields, and thus being older with less experience.
@@ -346,9 +345,9 @@ BIC(fit_basic, fit_interactions)
 
 # Education Level Impact
 
-[rewrite analysis since it was deleted]
+The next question was regarding how big of an impact education level has on salary, and also whether the relationship between salary and years of experience is different for different education groups. This analysis has implications to the financial value of higher education over the course of a career.
 
-```{r}
+```{r message=F}
 # order education levels
 Salary_Data$edu_ordered = factor(Salary_Data$Education,
                                  levels=c("High School", "Bachelor's", "Master's", "PhD"))
@@ -362,9 +361,13 @@ ggplot(data=Salary_Data) +
        y="Density per education level",
        x="Salary (INR per year)") +
   scale_x_continuous(breaks=c(0, 50000, 100000, 150000, 200000, 250000))
+
+ # Salary_Data %>% group_by(Education) %>%
+ #   summarize(med_salary=median(Salary),
+ #             stddev = sd(Salary))
 ```
 
-[rewrite analysis since it was deleted]
+The above density plot shows clear differences between education groups, particularly between the high school group and all higher education groups. The high school group has a median salary of only 30,000 INR (\$362 USD) per year, compared to median salaries of 80,000 INR (\$966 USD) for Bachelor's, 130,000 INR (\$1570 USD) for Master's, and 170,000 INR (\$2053) for PhD groups. Thus, based on median salary alone there is a clear benefit that comes with each additional level of education. However, as the median salary increases the variation in salary also increases.
 
 Our next step is to examine how salary changes with years of experience relative to education level. As our initial scatterplots showed a curved relationship between years of experience and salary, we have taken a square root transformation of years of experience which is plotted below.
 
@@ -393,8 +396,7 @@ slopes <- c(lm.edu_yoe$coefficients[5] + lm.edu_yoe$coefficients[6],
             lm.edu_yoe$coefficients[5] + lm.edu_yoe$coefficients[8])
 ```
 
-
-In agreement with the analysis of interactions above, the interaction between education level and square root of years of experience is significant at the $\alpha=0.01$ level for all education levels tested. That is, the change in salary for increased years of experience is significantly different for different education levels. In order of high school, Bachelor's, Master's, and PhD groups, after adjusting for the square root transformation the expected increase in salary per one year increase in experience is 22195, 38535, 36065, and 31064 INR. We can see that the high school group has nearly half the expected slope as the Bachelor's group, but Master's and PhD groups actually have smaller slopes. In other words, the benefit of a Bachelor's over a high school diploma is strongest considering both the median salary and increase in salary over years of experience. Due to the higher median salaries of the Master's and PhD groups, there are still benefits to these higher degrees but the increase in salary over time is less.
+In agreement with the analysis of interactions above, the interaction between education level and square root of years of experience is significant at the $\alpha=0.01$ level for all education levels tested. That is, the change in salary for increased years of experience is significantly different for different education levels. In order of high school, Bachelor's, Master's, and PhD groups, after adjusting for the square root transformation the expected increase in salary per one year increase in experience is 22195, 38535, 36065, and 31064 INR. In other words, the benefit of a Bachelor's over a high school diploma is strongest considering both the median salary and increase in salary over years of experience. Due to the higher median salaries of the Master's and PhD groups, there are still benefits to these higher degrees but the increase in salary over time is less.
 
 # Outliers
 
@@ -406,12 +408,9 @@ plot(fit_interactions, which = 4)
 
 # Final model
 
-<<<<<<< HEAD
-=======
 ```{r}
 final.LM <- lm(Salary ~ Gender + sqrt_yoe + Job.Category + Education:sqrt_yoe + Education:Job.Category + Education:Gender + Gender:sqrt_yoe, data = Salary_Data)
 
 summary(final.LM)
 ```
 
->>>>>>> 8f8400d392ebb4266ed0e8ab45599ea384fecac5
