@@ -195,11 +195,11 @@ The new variable can now be used in our linear regression analysis. One potentia
 
 ```{r}
 # Create linear model for response Salary, and predictors Years.of.Experience, and Job.Category
-Job.Salary.fit <- lm(Salary ~ Job.Category + Years.of.Experience, data=Salary_Data)
+Job.Salary.fit <- lm(Salary ~ Job.Category * Years.of.Experience, data=Salary_Data)
 summary(Job.Salary.fit)
 ```
 
-Looking at the job category linear model `Job.Category` does appear to be a strong predictor of `Salary` with all levels appearing to be statistically significant without accounting for any Family-Wise Error Rate Corrections.
+Looking at the job category linear model `Job.Category` does appear to be a strong predictor of `Salary` with many of the levels having significant interactions with the `Years.of.Experience` predictor.
 
 ### Education Levels Normalization
 
@@ -260,10 +260,6 @@ plot(Salary_Data$Years.of.Experience, Salary_Data$Salary)
 ```
 
 
-
-# Starting Model
-
-
 # Collinearity of Age and Experience
 
 We want to check if age and years of experience are collinear. It makes logical sense that they would be, as you would not expect a person fresh out of college to have much experience. And a person who is older could have been is a job for years. But, there could be other factors that cause them to not be related, such as changing jobs or fields, and thus being older with less experience.
@@ -306,7 +302,7 @@ Using R to create a linear regression between Age and Years of Experience we see
 
 To check for interactions, we fit a linear model including all predictors, and all of their interactions. From those, we selected only the interactions that were statistically significant at the 0.05 level of probability. This gives us the following interactions as significant. Education has multiple significant interactions with both age and experience. Education also has multiple significant interactions with job category. And, looking at rows 16 to 19, gender appears to have a significant interaction with education, and years of experience.
 
-![Screenshot since knitting freaked out](Interaction_Screenshot.png)
+![Screenshot since knitting freaked out](Interaction_Screenshot.png){height=50%, width=50%}
 
 ```{r eval=FALSE}
 #for some reason, the code worked here, but flipped out when knitting
@@ -321,14 +317,14 @@ coefs <- inter_summary$coefficients
 vars <- rownames(coefs)[which(coefs[,4] < 0.05)]
 #vars
 
-significant <- data.frame(matrix(NA, nrow = 30, ncol = 2))
+significant <- data.frame(matrix(NA, nrow = 26, ncol = 2))
 colnames(significant) <- c("predictor", "p value")
-significant$predictor <- as.vector(vars)
+significant$predictor <- vars
 
 r <- 1
-for(i in 1:57){
+for(i in 1:49){
   if(coefs[i,4] < 0.05) {
-    significant[r,2] <- as.vector(coefs[i,4])
+    significant[r,2] <- coefs[i,4]
     r <- r + 1
   }
 }
@@ -410,3 +406,12 @@ plot(fit_interactions, which = 4)
 
 # Final model
 
+<<<<<<< HEAD
+=======
+```{r}
+final.LM <- lm(Salary ~ Gender + sqrt_yoe + Job.Category + Education:sqrt_yoe + Education:Job.Category + Education:Gender + Gender:sqrt_yoe, data = Salary_Data)
+
+summary(final.LM)
+```
+
+>>>>>>> 8f8400d392ebb4266ed0e8ab45599ea384fecac5
