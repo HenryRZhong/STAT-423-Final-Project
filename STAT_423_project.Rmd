@@ -1,6 +1,6 @@
 ---
 title: "STAT_423_project"
-author: "Lorenzo, Henry, Sophia"
+author: "Lorenzo, Hayden, Sophia"
 date: "2024-02-29"
 output: pdf_document
 ---
