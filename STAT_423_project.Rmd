@@ -14,20 +14,13 @@ Salary_Data <- read.csv("Salary_Data.csv")
 Salary_Data <- na.omit(Salary_Data)
 ```
 
-# Authors
-
-Hayden Zhong [henryz3@uw.edu] – First author of __ sections
-Lorenzo Wahaus [ldw539@uw.edu] – First author of __ sections
-Sophia Chiesa [sc933@uw.edu] – First author of Introduction, , __ sections
-
-
 # Introduction
-
 The world of career salaries, especially from the perspective of undergraduate students on the cusp of joining the full-time workforce, is complex and enigmatic. Due to legal and cultural confidentiality, and the fact that so many hidden factors seem to impact a job’s salary, it can be difficult to develop a clear idea of how salaries of different jobs compare. In addition, we were curious how salaries vary over demographic groups such as gender and education level. These analyses can help reveal potential salary inequity trends in the case of gender, and help advise and inform educational choices in the case of education level. Our overall goal is to develop a better understanding of the salary landscape of the current workforce.
 
 The questions our group sought to answer include, first and primarily, which factors are the strongest predictors of salary. Secondly, as both age and years of experience are included in the data, we wanted to see how collinear these columns are. It makes logical sense that they would be, as you would not expect a person fresh out of college to have much experience. But, there could be other factors that cause them to not be related, such as changing jobs or fields, and thus being older with less experience. Additionally, we want to investigate how big of an effect education level has on salary, especially with added years of experience. This question was motivated by the idea that if having a Master’s degree or PhD provides only a slight increase in salary over having a Bachelor’s at the end of a career, then the degree may not be financially worthwhile.
 
-# Data Description
+
+# Data description
 
 The data used for this project is the Salary_Data dataset from Kaggle, found [here](https://www.kaggle.com/datasets/mohithsairamreddy/salary-data/data)
 
@@ -39,12 +32,21 @@ Due to the job title column having a large number of categories, we will be grou
 
 # Data Processing
 
-The dataset as sourced from Kaggle is generally clean and ready-to-use. However, some data processing was needed for the job title and education level columns. In the raw dataset, the job title column contains 192 unique job title strings. In addition, some job titles contain a seniority level (“Junior”, “Senior”, “Principal”, etc.) while most don’t. In order to make this column usable for our regression and analysis, we chose to ignore the seniority level included in some jobs and sorted all job titles into one category out of STEM, Business, Administrative, Service, and Other. [elaborate?]
+### Job Categorization
 
-The second step of our data processing involved normalizing how education levels were recorded. All education levels in the dataset fall under the categories of High School, Bachelor’s, Master’s, or PhD, but there were some inconsistencies in capitalization and punctuation within these groups. Therefore, we normalized the data by simply replacing all variations of one of these categories with one of the four education forms listed above in order to maintain the accuracy of analyses conducted on this column.
+For our analysis of the Salary Dataframe, we wanted to do linear regression of the salary based on the type of job someone was employed in. The first instinct would be to use the `Job.Title` column of our dataframe. The problem with this approach is that there are way too many job titles that were listed in the data there were `r length(Salary_Data %>% count(Job.Title)$Job.Title)` different job titles listed in the dataset, which would make any categorical regression nigh impossible.
 
+So we decided to categorize our job titles into different job categories which correspond to different kinds of jobs. The 5 levels for our `Job.Category` variable are `STEM, BUSINESS, ADMIN, SERVICE, and OTHER`. 
 
-### Job Title Categorizing
+- `STEM` describes scientific and technical jobs, like computer programming, scientific research, and engineering. 
+
+- `BUSINESS` refers to any jobs involving the financial and marketing aspects of running businesses and companies. 
+
+- `ADMIN` refers to managerial and administrative jobs, involves project management, training, and human resource management. 
+
+- `SERVICE` refers to jobs the involve mainly interacting with customers and helping them in some way
+
+- `OTHER` refers to jobs that don't fit any of the categories listed above
 
 ```{r}
 # Job Category Word Lists
@@ -119,34 +121,64 @@ check_overlap <- function(title) {
   return(FALSE)
 }
 
+# Takes care of overlapping categorizations for job titles
+STEM.overlap <- c("Chief Data Officer", "Chief Technology Officer", "Data Entry Clerk", "Director of Data Science", "Director of Engineering", "IT Manager", "IT Support", "IT Support Specialist", "Principal Engineer", "Principal Scientist", "Research Director", "Senior IT Project Manager", "Senior IT Support Specialist", "Senior Project Engineer", "Software Engineer Manager", "Software Manager", "Software Project Manager", "Technical Support Specialist", "UX Researcher")
+ADMIN.overlap <- c("Director of Human Capital", "Project Engineer", "Senior HR Specialist", "Senior Human Resources Specialist", "Senior Training Specialist", "Training Specialist")
+BUSINESS.overlap <- c("Account Manager", "Business Development Manager", "Content Marketing Manager", "Digital Marketing Manager", "Digital Marketing Specialist", "Director of Business Development", "Director of Finance", "Director of Marketing", "Director of Product Management", "Director of Sales", "Director of Sales and Marketing", "Financial Manager", "Junior Account Manager", "Junior Advertising Coordinator", "Junior Business Operations Analyst", "Junior Marketing Coordinator", "Junior Marketing Manager", "Junior Marketing Specialist", "Junior Product Manager", "Junior Social Media Manager", "Junior Social Media Specialist", "Marketing Coordinator", "Marketing Director", "Marketing Manager", "Marketing Specialist", "Product Manager", "Product Marketing Manager", "Public Relations Manager", "Sales Director", "Sales Executive", "Sales Manager", "Sales Operations Manager", "Senior Account Executive", "Senior Account Manager", "Senior Business Development Manager", "Senior Financial Manager", "Senior Marketing Coordinator", "Senior Marketing Director","Senior Marketing Manager", "Senior Marketing Specialist", "Senior Product Development Manager", "Senior Product Manager", "Senior Product Marketing Manager", "Senior Sales Manager", "Social Media Manager", "Social Media Specialist", "VP of Finance")
+SERVICE.overlap <- c("Customer Service Manager", "Customer Service Rep", "Customer Success Manager", "Customer Success Rep", "Junior Customer Support Specialist")
+sort.overlap <- function(job_titles) {
+  i <- 1
+  categories <- c()
+  for(title in job_titles) {
+    if(title %in% STEM.overlap) {
+      categories[i] <- "STEM"
+    } else if(title %in% ADMIN.overlap) {
+      categories[i] <- "ADMIN"
+    } else if(title %in% BUSINESS.overlap) {
+      categories[i] <- "BUSINESS"
+    } else if(title %in% SERVICE.overlap) {
+      categories[i] <- "SERVICE"
+    } else {
+      categories[i] <- title
+    }
+    i <- i + 1
+  }
+  return(categories)
+}
+
 job_category <- function(job_titles) {
     i <- 1
     categories <- c()
     for (title in job_titles) {
-      categories[i] <- case_when(check_overlap(title) ~ "OVERLAP",
+      if(title %in% STEM.overlap) {
+        categories[i] <- "STEM"
+      } else if(title %in% ADMIN.overlap) {
+        categories[i] <- "ADMIN"
+      } else if(title %in% BUSINESS.overlap) {
+        categories[i] <- "BUSINESS"
+      } else if(title %in% SERVICE.overlap) {
+        categories[i] <- "SERVICE"
+      } else {
+        categories[i] <- case_when(check_overlap(title) ~ "OVERLAP",
                         is_STEM(title) ~ "STEM",
                         is_ADMIN(title) ~ "ADMIN",
                         is_BUSINESS(title) ~ "BUSINESS",
                         is_SERVICE(title) ~ "SERVICE",
                         TRUE ~ "OTHER")
+      }
       i <- i + 1
     }
     return(categories)
 }
-
-# Takes care of overlapping categorizations for job titles
-STEM.overlap <- c("Chief Data Officer", "Chief Technology Officer", "Data Entry Clerk", "Director of Data Science", "Director of Engineering", "IT Manager", "IT Support", "IT Support Specialist", "Principal Engineer", "Principal Scientist", "Research Director", "Senior IT Project Manager", "Senior IT Support Specialist", "Senior Project Engineer", "Software Engineer Manager", "Software Manager", "Software Project Manager", "Technical Support Specialist", "UX Researcher")
-ADMIN.overlap <- c("Director of Human Capital", "Project Engineer", "Senior HR Specialist", "Senior Human Resources Specialist", "Senior Training Specialist", "Training Specialist")
-BUSINESS.overlap <- c("Account Manager", "Business Development Manager", "Content Marketing Manager", "Digital Marketing Manager", "Digital Marketing Specialist", "Director of Business Development", "Director of Finance", "Director of Marketing", "Director of Product Management", "Director of Sales", "Director of Sales and Marketing", "Financial Manager", "Junior Account Manager", "Junior Advertising Coordinator", "Junior Business Operations Analyst", "Junior Marketing Coordinator", "Junior Marketing Manager", "Junior Marketing Specialist", "Junior Product Manager", "Junior Social Media Manager, Junior Social Media Specialist", "Marketing Coordinator", "Marketing Director", "Marketing Manager", "Marketing Specialist", "Product Manager", "Product Marketing Manager", "Public Relations Manager", "Sales Director", "Sales Executive", "Sales Manager", "Sales Operations Manager", "Senior Account Executive", "Senior Account Manager", "Senior Business Development Manager", "Senior Financial Manager", "Senior Marketing Coordinator", "Senior Marketing Manager", "Senior Marketing Specialist", "Senior Product Development Manager", "Senior Product Manager", "Senior Product Marketing Manager", "Senior Sales Manager", "Social Media Manager", "Social Media Specialist", "VP of Finance")
-SERVICE.overlap <- c("Customer Service Manager", "Customer Service Rep", "Customer Success Manager", "Customer Success Rep", "Junior Customer Support Specialist")
 ```
 
 ```{r}
 job_categories <- job_category(Salary_Data$Job.Title)
+# job_categories <- sort.overlap(job_categories)
 Salary_Data <- Salary_Data %>% mutate(Job.Category = job_categories)
 ```
 
-### Education Levels Normalization
+### Education
 
 We also noticed later on that the Education.Level column had categories that should be put together, such as phD and PhD, and Bachelor's and Bachelor's Degree, where they denoted the same level of education. So, we fixed that to the levels of High School, Bachelor's, Master's, and PhD.
 
@@ -188,9 +220,6 @@ Salary_Data$Education <- schooling
 Salary_Data <- na.omit(Salary_Data)
 ```
 
-### NAs
-
-There were only 5 rows of our 6704 with N/A values, two of these being completely empty rows and the remaining three with N/A values in the salary and years of experience columns. These 5 rows were filtered out of our processed dataset.
 
 # Service
 
@@ -217,13 +246,13 @@ plot(Age_S, Experience_S, main = "Scatterplot of Age vs Experience",
 ```
 Looking at the scatterplot of age versus experience, we see that there appears to be a linear relationship between the two.
 
-```{r}
+```{r echo=TRUE}
 cor(AgeVsExp$Age, AgeVsExp$Years.of.Experience, use = "complete.obs")
 ```
 
 Using the correlation function in R gives us a correlation value of 0.9377, which is greater than what we said was needed to consider a collinear relationship possible.
 
-```{r}
+```{r echo=TRUE}
 AVE.lm <- lm(Salary ~ Age + Years.of.Experience, data = AgeVsExp)
 vif(AVE.lm)
 ```
