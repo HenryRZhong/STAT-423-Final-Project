@@ -15,7 +15,7 @@ Salary_Data <- na.omit(Salary_Data)
 
 # Authors
 
-Hayden Zhong [henryz3@uw.edu] – First author of Job Title Categorization sections
+Hayden Zhong [henryz3@uw.edu] – First author of Job Title Categorization sections, Revised Final Model and Conclusion Sections
 
 Lorenzo Wahaus [ldw539@uw.edu] – First author of Linearity, collinearity, interactions, and outliers sections
 
