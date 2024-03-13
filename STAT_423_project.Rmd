@@ -6,7 +6,7 @@ output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = FALSE, fig.width=9, fig.height=5)
 library(car)
 library(tidyverse)
 library(MASS)
@@ -18,7 +18,9 @@ Salary_Data <- na.omit(Salary_Data)
 # Authors
 
 Hayden Zhong [henryz3@uw.edu] – First author of Job Title Categorization sections
+
 Lorenzo Wahaus [ldw539@uw.edu] – First author of Linearity, collinearity, interactions, and outliers sections
+
 Sophia Chiesa [sc933@uw.edu] – First author of Introduction, Education Level Impact sections
 
 # Introduction
@@ -341,6 +343,7 @@ BIC(fit_basic, fit_interactions)
 
 # Education Level Impact
 
+[rewrite analysis since it was deleted]
 ```{r}
 # order education levels
 Salary_Data$edu_ordered = factor(Salary_Data$Education,
@@ -353,11 +356,11 @@ ggplot(data=Salary_Data) +
                       alpha=0.5, show.legend=F) +
   labs(title="Salary distribution for each education level",
        y="Density per education level",
-       x="Salary (USD per year)") +
+       x="Salary (INR per year)") +
   scale_x_continuous(breaks=c(0, 50000, 100000, 150000, 200000, 250000))
 ```
 
-[write analysis since it was]
+[rewrite analysis since it was deleted]
 
 Our next step is to examine how salary changes with years of experience relative to education level. As our initial scatterplots showed a curved relationship between years of experience and salary, we have taken a square root transformation of years of experience which is plotted below.
 
