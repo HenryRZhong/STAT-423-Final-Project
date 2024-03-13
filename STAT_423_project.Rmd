@@ -195,11 +195,11 @@ The new variable can now be used in our linear regression analysis. One potentia
 
 ```{r}
 # Create linear model for response Salary, and predictors Years.of.Experience, and Job.Category
-Job.Salary.fit <- lm(Salary ~ Job.Category + Years.of.Experience, data=Salary_Data)
+Job.Salary.fit <- lm(Salary ~ Job.Category * Years.of.Experience, data=Salary_Data)
 summary(Job.Salary.fit)
 ```
 
-Looking at the job category linear model `Job.Category` does appear to be a strong predictor of `Salary` with all levels appearing to be statistically significant without accounting for any Family-Wise Error Rate Corrections.
+Looking at the job category linear model `Job.Category` does appear to be a strong predictor of `Salary` with many of the levels having significant interactions with the `Years.of.Experience` predictor.
 
 ### Education Levels Normalization
 
