@@ -193,6 +193,7 @@ Salary_Data <- Salary_Data %>% mutate(Job.Category = job_categories)
 
 The new variable can now be used in our linear regression analysis. One potential issue with the validity of this statistical analysis, is that the job categorizations we designated are somewhat arbitrary particularly in the case that we had overlap between job titles. This could potentially compromise the statistical power of any analysis of the job category variable.
 
+
 ### Education Levels Normalization
 
 We also noticed later on that the Education.Level column had categories that should be put together, such as phD and PhD, and Bachelor's and Bachelor's Degree, where they denoted the same level of education. So, we fixed that to the levels of High School, Bachelor's, Master's, and PhD.
