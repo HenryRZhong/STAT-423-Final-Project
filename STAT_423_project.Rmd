@@ -260,10 +260,6 @@ plot(Salary_Data$Years.of.Experience, Salary_Data$Salary)
 ```
 
 
-
-# Starting Model
-
-
 # Collinearity of Age and Experience
 
 We want to check if age and years of experience are collinear. It makes logical sense that they would be, as you would not expect a person fresh out of college to have much experience. And a person who is older could have been is a job for years. But, there could be other factors that cause them to not be related, such as changing jobs or fields, and thus being older with less experience.
