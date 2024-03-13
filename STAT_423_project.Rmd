@@ -321,14 +321,14 @@ coefs <- inter_summary$coefficients
 vars <- rownames(coefs)[which(coefs[,4] < 0.05)]
 #vars
 
-significant <- data.frame(matrix(NA, nrow = 30, ncol = 2))
+significant <- data.frame(matrix(NA, nrow = 26, ncol = 2))
 colnames(significant) <- c("predictor", "p value")
-significant$predictor <- as.vector(vars)
+significant$predictor <- vars
 
 r <- 1
-for(i in 1:57){
+for(i in 1:49){
   if(coefs[i,4] < 0.05) {
-    significant[r,2] <- as.vector(coefs[i,4])
+    significant[r,2] <- coefs[i,4]
     r <- r + 1
   }
 }
