@@ -10,6 +10,7 @@ knitr::opts_chunk$set(echo = FALSE)
 library(car)
 library(tidyverse)
 library(MASS)
+library(ggridges)
 Salary_Data <- read.csv("Salary_Data.csv")
 Salary_Data <- na.omit(Salary_Data)
 ```
@@ -356,7 +357,7 @@ ggplot(data=Salary_Data) +
   scale_x_continuous(breaks=c(0, 50000, 100000, 150000, 200000, 250000))
 ```
 
-
+[write analysis since it was]
 
 Our next step is to examine how salary changes with years of experience relative to education level. As our initial scatterplots showed a curved relationship between years of experience and salary, we have taken a square root transformation of years of experience which is plotted below.
 
