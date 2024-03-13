@@ -193,6 +193,13 @@ Salary_Data <- Salary_Data %>% mutate(Job.Category = job_categories)
 
 The new variable can now be used in our linear regression analysis. One potential issue with the validity of this statistical analysis, is that the job categorizations we designated are somewhat arbitrary particularly in the case that we had overlap between job titles. This could potentially compromise the statistical power of any analysis of the job category variable.
 
+```{r}
+# Create linear model for response Salary, and predictors Years.of.Experience, and Job.Category
+Job.Salary.fit <- lm(Salary ~ Job.Category + Years.of.Experience, data=Salary_Data)
+summary(Job.Salary.fit)
+```
+
+Looking at the job category linear model `Job.Category` does appear to be a strong predictor of `Salary` with all levels appearing to be statistically significant without accounting for any Family-Wise Error Rate Corrections.
 
 ### Education Levels Normalization
 
@@ -394,7 +401,7 @@ In agreement with the analysis of interactions above, the interaction between ed
 
 # Outliers
 
-To find any possible outliers in our data, we will find the Cook's Distance for each of the data points. If any data point has a Cook's distance greater than 0.5, we will look into removing it as it would potentially be an outlier. The model that we will use to calculate this is the interactions fit model, as seen in the Interactions section, as it is our most complete model at this point. Looking at the plot, we see that all but one of the points have a cook's distance of less than 0.05. The 111th data point has a relatively high cook's distance between 0.30 and 0.35. But, it is less than 0.5, so we do not have enough evidence to consider any points an outlier to be removed.
+To find any possible outliers in our data, we will find the Cook's Distance for each of the data points. If any data point has a Cook's distance greater than 0.5, we will look into removing it as it would potentially be an outlier. The model that we will use to calculate this is the interactions fit model, as seen in the Interactions section, as it is our most complete model at this point. Looking at the plot, we see that all but one of the points have a cook's distance of less than 0.05. The 29th data point has a relatively high cook's distance, compared to the others, between 0.08 and 0.10. But, it is less than 0.5, so we do not have enough evidence to consider any points an outlier to be removed.
 
 ```{r}
 plot(fit_interactions, which = 4)
