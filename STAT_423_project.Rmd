@@ -8,7 +8,7 @@ knitr::opts_chunk$set(echo = FALSE, fig.width=7, fig.height=4)
 library(car)
 library(tidyverse)
 library(MASS)
-# library(ggridges)
+library(ggridges)
 Salary_Data <- read.csv("Salary_Data.csv")
 Salary_Data <- na.omit(Salary_Data)
 ```
