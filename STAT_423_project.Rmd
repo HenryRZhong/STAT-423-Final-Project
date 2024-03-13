@@ -405,3 +405,10 @@ plot(fit_interactions, which = 4)
 
 
 # Final model
+
+```{r}
+final.LM <- lm(Salary ~ Gender + sqrt_yoe + Job.Category + Education:sqrt_yoe + Education:Job.Category + Education:Gender + Gender:sqrt_yoe, data = Salary_Data)
+
+summary(final.LM)
+```
+
