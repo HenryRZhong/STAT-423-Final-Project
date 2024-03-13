@@ -190,9 +190,7 @@ Salary_Data <- na.omit(Salary_Data)
 
 ### NAs
 
-Finally, there were only 5 rows of our 6704 with N/A values, two of these being completely empty rows and the remaining three with N/A values in the salary and years of experience columns. These 5 rows were filtered out of our processed dataset.
-
-
+There were only 5 rows of our 6704 with N/A values, two of these being completely empty rows and the remaining three with N/A values in the salary and years of experience columns. These 5 rows were filtered out of our processed dataset.
 
 # Service
 
@@ -200,7 +198,7 @@ Finally, there were only 5 rows of our 6704 with N/A values, two of these being 
 # starting model
 
 
-# collinearity of age and experience
+# Collinearity of Age and Experience
 
 We want to check if age and years of experience are collinear. It makes logical sense that they would be, as you would not expect a person fresh out of college to have much experience. And a person who is older could have been is a job for years. But, there could be other factors that cause them to not be related, such as changing jobs or fields, and thus being older with less experience.
 
@@ -238,7 +236,7 @@ summary(AVE.lm2)
 ```
 Using R to create a linear regression between Age and Years of Experience we see that the t-test gives a very low p-value, less than 0.001. This means that there is strong evidence of a linear relationship between the two variables, matching all of our previous tests. We see that if Age increases by one, years of experience will increase by roughly 0.746. Thus, as we have statistically significant evidence of Age and Years of Experience being collinear, we will not have both of them in our final model.
 
-# Checking for interactions
+# Checking for Interactions
 
 To check for interactions, we fit a linear model including all predictors, and all of their interactions. From those, we selected only the interactions that were statistically significant at the 0.05 level of probability. This gives us the following interactions as significant. Education has multiple significant interactions with both age and experience. Education also has multiple significant interactions with job category. And, looking at rows 16 to 19, gender appears to have a significant interaction with education, and years of experience.
 
@@ -278,12 +276,47 @@ AIC(fit_basic, fit_interactions)
 BIC(fit_basic, fit_interactions)
 ```
 
+# Impact of Education Level
 
+Our next question was related to whether how strong of a predictor education level specifically is of salary, and whether the interaction between education level and years of experience is significant. This question has implications to the financial value of higher education relative to the salary return over a course of a career.
 
-# Education level impact
+```{r message=F}
+# Density plot of salary per education level
+
+# first, order education levels
+Salary_Data$edu_ordered = factor(Salary_Data$Education, 
+                         levels=c("High School", "Bachelor's", "Master's", "PhD"))
+
+ggplot(data=Salary_Data) +
+  geom_density_ridges(mapping=aes(x=`Salary`,
+                                  y=edu_ordered,
+                                  fill=edu_ordered),
+                      alpha=0.5, show.legend=F) +
+  labs(title="Salary distribution for each education level",
+       y="Density per education level",
+       x="Salary (INR per year)") +
+  scale_x_continuous(breaks=c(0, 50000, 100000, 150000, 200000, 250000))
+```
+
+The density plots show a clear difference between individuals with only a high school education and all higher education levels. Specifically, the rows corresponding to a high school education appear to have a median income of less than 50,000 INR, which is only about \$603 USD, compared to higher median incomes for the Bachelor's, Master's, and PhD groups. There looks to be high variation in the salaries of individuals with Bachelor's, with a right skew and a median just above 50,000 INR. The distribution for individuals with Master's is centered higher but with higher variation, and is neither left nor right skewed. Finally, the PhD salary distribution has the highest median and a left skew.
+
+These findings might imply that while higher education does have a clear correlation with higher salary, the variation in salary is much greater for higher education levels compared to high school. Fortunately there do not appear to be diminishing returns in education; that is, the difference in median salary between the PhD and Master's groups appears about the same as the difference between the High School and Bachelor's groups.
+
+Our next step is to examine how salary changes with years of experience relative to education level. As our initial scatterplots showed a curved relationship between years of experience and salary, we have taken a square root transformation of years of experience which is shown below.
+
+```{r}
+Salary_Data <- Salary_Data %>% mutate(sqrt_yoe = sqrt(`Years.of.Experience`))
+
+ggplot(data=Salary_Data) +
+  geom_point(mapping=aes(y=`Salary`, x=sqrt_yoe),
+             alpha=0.4) +
+  facet_wrap(~`edu_ordered`) +
+  labs(title="Salary vs. sqrt(years of experience) for each education level",
+       x="Square root of years of experience")
+```
+
 
 
 # Outliers
-
 
 # Final model
