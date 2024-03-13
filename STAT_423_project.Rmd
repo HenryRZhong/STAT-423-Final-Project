@@ -251,7 +251,7 @@ Finally, there were only 6 rows of our 6704 with N/A or missing values, two of t
 
 # Linearity check
 
-Before doing a linear model, we want to check that the predictors and response variables have a linear relationship. So, as age and experience are our numerical predictors, we will make a scatterplot of each of them compared to salary. Looking at the scaterplots, we see that they both appear to have a linear relationship, so a linear model does make sense in this case.
+Before doing a linear model, we want to check that the predictors and response variables have a linear relationship. So, as age and experience are our numerical predictors, we will make a scatterplot of each of them compared to salary. Looking at the scatterplots, we see that they both appear to have a linear relationship, so a linear model does make sense in this case.
 
 ```{r}
 par(mfrow = c(1, 2))
@@ -351,6 +351,7 @@ BIC(fit_basic, fit_interactions)
 # Education Level Impact
 
 [rewrite analysis since it was deleted]
+
 ```{r}
 # order education levels
 Salary_Data$edu_ordered = factor(Salary_Data$Education,
@@ -407,5 +408,5 @@ To find any possible outliers in our data, we will find the Cook's Distance for 
 plot(fit_interactions, which = 4)
 ```
 
-
 # Final model
+
