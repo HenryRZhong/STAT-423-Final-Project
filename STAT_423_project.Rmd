@@ -26,7 +26,7 @@ Due to the job title column having a large number of categories, we will be grou
 
 # Job Categorization
 
-For our analysis of the Salary Dataframe, we wanted to do linear regression of the salary based on the type of job someone was employed in. The first instinct would be to use the `Job.Title` column of our dataframe. The problem with this approach is that there are way too many job titles that were listed in the data there were `r length(Salary_Data %>% count(Job.Title)$Job.Title)` different job titles listed in the dataset, which would make any categorical regression nigh impossible.
+For our analysis of the Salary Dataframe, we wanted to do linear regression of the salary based on the type of job someone was employed in. The first instinct would be to use the `Job.Title` column of our dataframe. The problem with this approach is that there are way too many job titles that were listed in the data there were `r length((Salary_Data %>% count(Job.Title))$Job.Title)` different job titles listed in the dataset, which would make any categorical regression nigh impossible.
 
 So we decided to categorize our job titles into different job categories which correspond to different kinds of jobs. The 5 levels for our `Job.Category` variable are `STEM, BUSINESS, ADMIN, SERVICE, and OTHER`. 
 
