@@ -59,6 +59,8 @@ So we decided to categorize our job titles into different job categories which c
 
 - `OTHER` refers to jobs that don't fit any of the categories listed above
 
+To sort the majority of job titles, we did a content analysis of all the words contained in all the job titles to see which words were recurring. These key words were then coded and sorted into 1 of 5 job categories. We then created a function to check if a job title contained a key word from a list, and if it did it was sorted into that job category, if the job title didn't contain any of the keyword it was sorted into `OTHER` if the job title contained keywords from 2 or more categories it was temporarily sorted into the `OVERLAP` category. These jobs with overlap were then manually sorted based on which job category fit the best.
+
 ```{r}
 # Job Category Word Lists
 # STEM
