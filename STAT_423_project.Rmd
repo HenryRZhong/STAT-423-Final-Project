@@ -305,23 +305,24 @@ inter_summary <- summary(inter)
 coefs <- inter_summary$coefficients
 
 # Identify the significant variables
-vars <- rownames(coefs)[which(coefs[, 4] < 0.05)]
+vars <- rownames(coefs)[which(coefs[,4] < 0.05)]
 #vars
 
 significant <- data.frame(matrix(NA, nrow = 30, ncol = 2))
 colnames(significant) <- c("predictor", "p value")
-significant$predictor <- vars
+significant$predictor <- as.vector(vars)
 
 r <- 1
 for(i in 1:57){
   if(coefs[i,4] < 0.05) {
-    significant[r,2] <- coefs[i,4]
+    significant[r,2] <- as.vector(coefs[i,4])
     r <- r + 1
   }
 }
 
 tail(significant, n = 21)
 ```
+
 
 So, to check that these interactions are significant, we will use the AIC and BIC functions. We will start with a fit of salary based on gender, experience, job category and education. I am leaving out age, as we know it to be collinear with experience based on work done above. We will compare this fit to one that also includes the interactions of education with experience, job category, and gender individually; it will also include the interaction between gender and experience. If the AIC and BIC for the fit including interactions is lower, we will conclude that the interactions are significant and should be included in our final model. Looking at our results below, this does hold, so we will add the interactions to our final model.
 
