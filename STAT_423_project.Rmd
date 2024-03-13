@@ -14,6 +14,7 @@ Salary_Data <- read.csv("Salary_Data.csv")
 Salary_Data <- na.omit(Salary_Data)
 ```
 
+
 # Data description
 
 The data used for this project is the Salary_Data dataset from Kaggle, found [here](https://www.kaggle.com/datasets/mohithsairamreddy/salary-data/data)
