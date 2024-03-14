@@ -436,7 +436,7 @@ When verifying the assumptions of our model, we found that the residuals are gen
 
 Our final model finds that `Salary` is strongly predicted by many factors, including `Education.Level`, `Job.Category`, `Years.of.Experience`, and some interactions between them. Notably, the interaction of `Education.Level` and `sqrt(Years.of.Experience)` was significant, but the interaction between `Gender` and `Years.of.Experience` was not. This suggests that while different genders did have different salaries on average (the male group having a 4906 INR increase over the female group), there is no evidence of different increases in salary with added experience.
 
-We found that `Age` and `Years.of.Experience` were strongly collinear, which suggests that most individuals sampled in the data set stayed in the same industry for most of their career. For job categories, the `STEM` category had on average the highest salary. This that jobs in tech industries have highest pay. One question we could investigate next is whether `Job.Category` is correlated with `Education.Level`, since it is possible that people in `STEM` jobs are likely to have a higher level of education.
+We found that `Age` and `Years.of.Experience` were strongly collinear, which suggests that most individuals sampled in the data set stayed in the same industry for most of their career. For job categories, the `STEM` category had on average the highest salary. Thus, jobs in tech industries have highest pay. One question we could investigate next is whether `Job.Category` is correlated with `Education.Level`, since it is possible that people in `STEM` jobs are likely to have a higher level of education.
 
 # References
 
