@@ -197,7 +197,7 @@ Job.Salary.fit <- lm(Salary ~ Job.Category + Years.of.Experience, data=Salary_Da
 summary(Job.Salary.fit)$coefficients
 ```
 
-Looking at the job category linear model `Job.Category` does appear to be a strong predictor of `Salary` with all levels appearing to be statistically significant.
+Looking at the job category Linear Model `Job.Category` does appear to be a strong predictor of `Salary` with all levels appearing to be statistically significant.
 
 ### Education Levels Normalization
 
@@ -248,7 +248,7 @@ Finally, there were only 6 of 6704 observations with `NA` or missing values, two
 
 # Linearity Check
 
-Before doing a Linear Model, we want to check that our Predictors and Response variables have a linear relationship. So, since `Age` and `Years.of.Experience` are numerical predictors, a Scatterplot comparing them `Salary` can be made. Observing our Scatterplots, we see that they both appear to have a mostly linear relationship, so a linear model for these predictor makes sense. Since there is some slight curvature, which we will explore making square root transformations with these Predictors.
+Before doing a Linear Model, we want to check that our Predictors and Response variables have a linear relationship. So, since `Age` and `Years.of.Experience` are numerical predictors, a Scatterplot comparing them `Salary` can be made. Observing our Scatterplots, we see that they both appear to have a mostly linear relationship, so a Linear Model for these predictor makes sense. Since there is some slight curvature, which we will explore making square root transformations with these Predictors.
 
 ```{r}
 par(mfrow = c(1, 2))
@@ -256,11 +256,11 @@ plot(Salary_Data$Age, Salary_Data$Salary)
 plot(Salary_Data$Years.of.Experience, Salary_Data$Salary)
 ```
 
-# Collinearity of Age and Experience
+# Collinearity of Age and Years of Experience
 
 We want to check if `Age` and `Years.of.Experience` are collinear. It would make sense for them to be collinear, as you would not expect a fresh college graduate to have much job experience. Inversely, a person who is older would have more time to develop experience in a particular job. But, there could be other factors influencing `Years.of.Experience` other than `Age`, such as changing jobs. Thus one could be older, but lack experience in a particular job.
 
-We will use three methods to check the collinearity between `Age` and `Years.of.Experience`. First, by creating a Scatterplot of between the two. We will see an even spread if they lack collinearity, we will see the points center around a diagonial, if collinear. Second, we will also use two `R` functions to find values that hint towards collinearity, the Correlation Coefficient and the Variance Inflation Factor (VIF). If the Correlation Coefficient is greater than 0.8 or the VIF is greater than 10, there is strong evidence of collinearity. Third, we will fit a linear regression model to out predictors `Age` and `Years.of.Experience`, with `Age` as the predictor and `Years.of.Experience` as the response. If the two are collinear, then there will be statistically significant evidence of a linear relationship between the two variables from a t-test.
+We will use three methods to check the collinearity between `Age` and `Years.of.Experience`. First, by creating a Scatterplot of between the two. We will see an even spread if they lack collinearity, we will see the points center around a diagonial, if collinear. Second, we will also use two `R` functions to find values that hint towards collinearity, the Correlation Coefficient and the Variance Inflation Factor (VIF). If the Correlation Coefficient is greater than 0.8 or the VIF is greater than 10, there is strong evidence of collinearity. Third, we will fit a Linear Regression Model to out predictors `Age` and `Years.of.Experience`, with `Age` as the predictor and `Years.of.Experience` as the response. If the two are collinear, then there will be statistically significant evidence of a linear relationship between the two variables from a t-test.
 
 ```{r}
 AgeVsExp <- Salary_Data[,c("Salary", "Age", "Years.of.Experience")]
@@ -287,7 +287,7 @@ AVE.lm <- lm(Salary ~ Age + Years.of.Experience, data = AgeVsExp)
 vif(AVE.lm)
 ```
 
-Creating a quick linear model of Salary predicted by Age and Experience, we can find the VIF of the two predictors. We see that each of them have a VIF of greater than 8. This again shows us that there is strong evidence for collinearity.
+Creating a quick Linear Model of Salary predicted by Age and Experience, we can find the VIF of the two predictors. We see that each of them have a VIF of greater than 8. This again shows us that there is strong evidence for collinearity.
 
 
 ```{r}
@@ -295,11 +295,11 @@ AVE.lm2 <- lm(Years.of.Experience ~ Age, data = AgeVsExp)
 summary(AVE.lm2)$coefficients
 ```
 
-Using `R` to create a Linear Regression model between `Age` and `Years.of.Experience`, we see that the t-test returns a very low p-value, significant at the 0.001 level, indicating strong evidence of a linear relationship, corroborating out two previous tests. We see that as `Age` increases by one, we expect the mean `Years.of.Experience` to increase by roughly 0.746. Thus as we have statistically significant evidence of `Age` and `Years.of.Experience` being collinear, we will not include both of predictors in our final model.
+Using `R` to create a Linear Regression Model between `Age` and `Years.of.Experience`, we see that the t-test returns a very low p-value, significant at the 0.001 level, indicating strong evidence of a linear relationship, corroborating out two previous tests. We see that as `Age` increases by one, we expect the mean `Years.of.Experience` to increase by roughly 0.746. Thus as we have statistically significant evidence of `Age` and `Years.of.Experience` being collinear, we will not include both of predictors in our final model.
 
 # Checking for Interactions
 
-To check for interactions, we fit a linear model including all predictors, and all of their interactions. From those, we selected only the interactions that were statistically significant at the 0.05 level of probability. This gives us the following interactions as significant. Education has multiple significant interactions with both age and experience. Education also has multiple significant interactions with job category. And, looking at rows 16 to 19, gender appears to have a significant interaction with education, and years of experience.
+To check for interactions, we fit a Linear Model including all predictors, and all of their interactions. From those, we selected only the interactions that were statistically significant at the 0.05 level of probability. This gives us the following interactions as significant. `Education.Level` has multiple significant interactions with both `Age` and `Years.of.Experience`. Education also has multiple significant interactions with `Job.Category`. And, looking at rows 16 to 19 of our summary, `Gender` appears to have a significant interaction with education, and years of experience.
 
 ![Screenshot since knitting freaked out](Interaction_Screenshot.png){height=50%, width=50%}
 
@@ -332,7 +332,7 @@ tail(significant, n = 21)
 ```
 
 
-So, to check that these interactions are significant, we will use the AIC and BIC functions. We will start with a fit of salary based on gender, experience, job category and education. I am leaving out age, as we know it to be collinear with experience based on work done above. We will compare this fit to one that also includes the interactions of education with experience, job category, and gender individually; it will also include the interaction between gender and experience. If the AIC and BIC for the fit including interactions is lower, we will conclude that the interactions are significant and should be included in our final model. Looking at our results below, this does hold, so we will add the interactions to our final model.
+So, to check that these interactions are significant, we will use the AIC and BIC functions. We will start with a fit of `Salary` based on `Gender`, `Years.of.Experience`, `Job.Category` and `Education`. We decided to remove `Age` from our model, as we know it to be collinear with `Years.of.Experience` based on work done above. We will compare this fit to one that also includes the interactions predictor `Education.Level` with `Years.of.Experience`, `Job.Category`, and `Gender` individually; it will also include the interaction term between `Gender:Years.of.Experience`. If the AIC and BIC criteria for the fit including interactions is lower than our Main Effects Model, we will conclude that the interaction terms are significant and should be included in our Final Model. Looking at our results below, this does hold, so we will add the interactions to our final model.
 
 ```{r}
 fit_basic <- lm(Salary ~ Gender + Years.of.Experience + Job.Category + Education, data = Salary_Data)
@@ -343,9 +343,9 @@ BIC(fit_basic, fit_interactions)
 ```
 
 
-# Education Level Impact
+# Education Level Impact on Salary
 
-The next question was regarding how big of an impact education level has on salary, and also whether the relationship between salary and years of experience is different for different education groups. This question was motivated by the idea that if having a Master’s degree or PhD provides only a slight increase in salary over having a Bachelor’s at the end of a career, then the degree may not be financially worthwhile.
+The next question was regarding how big of an impact `Education` has on `Salary`, and also whether the relationship between `Salary` and `Years.of.Experience` is different for different education levels. This question was motivated by the idea that if having a Master’s degree or PhD provides only a slight increase in `Salary` over having a Bachelor’s at the end of a career, then the degree may not be financially worthwhile.
 
 ```{r message=F}
 # order education levels
@@ -367,9 +367,9 @@ ggplot(data=Salary_Data) +
  #             stddev = sd(Salary))
 ```
 
-The above density plot shows clear differences between education groups, particularly between the high school group and all higher education groups. The high school group has a median salary of only 30,000 INR (\$362 USD) per year, compared to median salaries of 80,000 INR (\$966 USD) for Bachelor's, 130,000 INR (\$1570 USD) for Master's, and 170,000 INR (\$2053) for PhD groups. Thus, based on median salary alone there is a clear benefit that comes with each additional level of education. However, as the median salary increases the variation in salary also increases.
+The above Density Plot shows clear differences between education groups, particularly between the high school group and all higher level education groups. The high school group has a median salary of only 30,000 INR (\$362 USD) per year, compared to median salaries of 80,000 INR (\$966 USD) for Bachelor's, 130,000 INR (\$1570 USD) for Master's, and 170,000 INR (\$2053) for PhD groups. Thus, based on median `Salary` alone there is a clear benefit that comes with each additional level of education. However, as the median `Salary` increases the variation in `Salary` also increases.
 
-Our next step is to examine how salary changes with years of experience relative to education level. As our initial scatterplots showed a curved relationship between years of experience and salary, we have taken a square root transformation of years of experience which is plotted below.
+Our next step is to examine how `Salary` changes with `Years.of.Experience` relative to `Education.Level`. As our initial Scatterplots showed a curved relationship between `Years.of.Experience` and `Salary`, we made a square root transformation for `Years.of.Experience` which is plotted below.
 
 ```{r}
 Salary_Data <- Salary_Data %>% mutate(sqrt_yoe = sqrt(`Years.of.Experience`))
@@ -382,7 +382,7 @@ ggplot(data=Salary_Data) +
        x="Square root of years of experience")
 ```
 
-The scatterplot does not show any clear differences between the linear trends of salary vs. years of experience for each education group. To examine the relationship more closely we constructed a linear model using only square root of years of experience, education level, and their interaction as predictors of salary. 
+The Scatterplot does not show any clear differences between the linear trends of `Salary` vs. `Years.of.Experience` for each education group. To examine the relationship more closely we constructed a Linear Model using only `sqrt(Years.of.Experience)`, `Education.Level`, and `sqrt(Years.of.Experience):Education.Level` to predict `Salary`. 
 
 ```{r}
 lm.edu_yoe <- lm(Salary ~ Education*sqrt_yoe, data=Salary_Data)
@@ -396,18 +396,18 @@ slopes <- c(lm.edu_yoe$coefficients[5] + lm.edu_yoe$coefficients[6],
             lm.edu_yoe$coefficients[5] + lm.edu_yoe$coefficients[8])
 ```
 
-In agreement with the analysis of interactions above, the interaction between education level and square root of years of experience is significant at the $\alpha=0.01$ level for all education levels tested. That is, the change in salary for increased years of experience is significantly different for different education levels. In order of high school, Bachelor's, Master's, and PhD groups, after adjusting for the square root transformation the expected increase in salary per one year increase in experience is 22195, 38535, 36065, and 31064 INR. In other words, the benefit of a Bachelor's over a high school diploma is strongest considering both the median salary and increase in salary over years of experience. Due to the higher median salaries of the Master's and PhD groups, there are still benefits to these higher degrees but the increase in salary over time is less.
+In agreement with the analysis of the interactions above, the interaction term `sqrt(Years.of.Experience):Education.Level` is significant at the $\alpha=0.01$ level for all education levels tested. That is, the expected change in mean `Salary` for increased years of experience differs significantly for different education levels. For the `High School`, `Bachelor's`, `Master's`, and `PhD` education level groups, after adjusting for the square root transformation, the expected increase in mean `Salary` per one increase in `Years.of.Experience` is 22195, 38535, 36065, and 31064 INR respectively. In other words, the benefit of a Bachelor's Degree over a High School Diploma is strongest considering both the median `Salary` and increase in mean `Salary` over `Years.of.Experience`. Due to the higher median salaries of the Master's and PhD groups, there are still benefits to these higher level degrees but the increase in `Salary` relative to `Years.of.Experience` is less.
 
 # Outliers
 
-To find any possible outliers in our data, we will find the Cook's Distance for each of the data points. If any data point has a Cook's distance greater than 0.5, we will look into removing it as it would potentially be an outlier. The model that we will use to calculate this is the interactions fit model, as seen in the Interactions section, as it is our most complete model at this point. Looking at the plot, we see that all but one of the points have a cook's distance of less than 0.05. The 29th data point has a relatively high cook's distance, compared to the others, between 0.08 and 0.10. But, it is less than 0.5, so we do not have enough evidence to consider any points an outlier to be removed.
+To find any possible outliers in our data, we use the Cook's Distance statistic for each of the data points. If any data point has a Cook's distance greater than 0.5, we will consider removing it as it would potentially be an outlier. The model that we will use to calculate this is the interactions fit model, as seen in the Interactions section, as it is our most complete model at this point. Looking at the plot, we see that all but one of the points have a Cook's Distance of less than 0.05. The 29th data point has a relatively high cook's distance, compared to the others, between 0.08 and 0.10. But, it is less than 0.5, so we do not have strong enough evidence to consider any points for removal.
 
 ```{r}
 plot(fit_interactions, which = 4)
 ```
 
 
-# Final model
+# Final Model
 
 Based on all of our previous data, we decided to make our final model based on response variable Salary with predictors `Gender`, `sqrt(Years.of.Experience)`, `Job.Category`, `Education.Level`, and interaction terms of `Education.Level` with the other three predictors, and the interaction term `Gender:sqrt(Years.of.Experience)`. Running the stepwise AIC function, it removed the interaction term `Gender:sqrt(Years.of.Experience)`.
 
@@ -434,9 +434,9 @@ When verifying the assumptions of our model, we found that the residuals are gen
 
 # Conclusion
 
-Our final model finds that salary is strongly predicted by many factors, including level of education, job category, education, and some interactions between them. Notably, the interaction of education and square root years of experience was significant, but the interaction between gender and years of experience was not. This suggests that while different genders did have different salaries on average (the male group having a 4906 INR increase over the female group), there is no evidence of different increases in salary with added experience.
+Our final model finds that `Salary` is strongly predicted by many factors, including `Education.Level`, `Job.Category`, `Years.of.Experience`, and some interactions between them. Notably, the interaction of `Education.Level` and `sqrt(Years.of.Experience)` was significant, but the interaction between `Gender` and `Years.of.Experience` was not. This suggests that while different genders did have different salaries on average (the male group having a 4906 INR increase over the female group), there is no evidence of different increases in salary with added experience.
 
-We found that age and years of experience are strongly collinear, which suggests that most individuals sampled in the data set stayed in the same industry for most of their career. For job categories, the STEM category had on average the highest salary. This that jobs in tech industries have highest pay. One question we could investigate next is whether job category is correlated with education level, since it is possible that people in STEM jobs are likely to have a higher level of education.
+We found that `Age` and `Years.of.Experience` were strongly collinear, which suggests that most individuals sampled in the data set stayed in the same industry for most of their career. For job categories, the `STEM` category had on average the highest salary. This that jobs in tech industries have highest pay. One question we could investigate next is whether `Job.Category` is correlated with `Education.Level`, since it is possible that people in 'STEM' jobs are likely to have a higher level of education.
 
 # References
 
