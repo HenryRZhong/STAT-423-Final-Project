@@ -29,13 +29,13 @@ The questions our group sought to answer include, first and primarily, which fac
 
 # Data Description
 
-The data used for this project is the Salary_Data dataset from Kaggle, found [here](https://www.kaggle.com/datasets/mohithsairamreddy/salary-data/data) and in the References section.
+The data used for this project is the `Salary_Data` dataset from Kaggle, found [here](https://www.kaggle.com/datasets/mohithsairamreddy/salary-data/data) and in the References section.
 
-The description of the data set does not say where the data is from geographically. However, the data set creator did respond to a comment asking what unit the salary data was in, saying that it was in Indian Rupees(INR). Given this, it is most likely that this data set is from India.
+The description of the data set does not say where the data is from geographically. However, the data set creator did respond to a comment asking what unit the salary data was in, saying that `Salary` was in Indian Rupees(INR). Given this information, it is most likely that this data set is sampled from India.
 
-There are 6698 complete rows and six columns: age (in years), gender (male, female, or other), education level (Bachelor’s, Master’s, or PhD), job title, years of experience, and salary in INR. The numeric variables are age, years of experience, and salary, while gender, education level, and job title are categorical. The job title column is freeform; some job titles come up hundreds of times while others only appear once. Additionally, there are only 14 rows with gender as other, so there is relatively less data for that point.
+There are 6698 complete rows and six columns: `Age` (in Years), `Gender` (`Male`, `Female`, or `Other`), `Education.Level` (`Bachelor’s`, `Master’s`, or `PhD`), `Job.Title`, `Years.of.Experience`, and `Salary` in `INR`. The numeric variables are `Age`, `Years.of.Experience`, and `Salary`, while `Gender`, `Education.Level`, and `Job.Title` are categorical. The `Job.Title` column has a ton of levels; We found that some job titles had hundreds of observation while others only had a few, some as little as one observation. Additionally, there are only 14 datapoints with `Gender` as `Other`, so less generalization can be made about Nonbinary gender identities.
 
-Due to the job title column having a large number of categories, we will be grouping categories together to have a more reasonable number of categorical levels for our analysis. Given the arbitrary nature of this, it could potentially have an impact on the significance of our findings of if job title is a significant predictor of salary.
+Due to the `Job.Title` column having a large number of levels, we will be grouping job titles together into a new variable `Job.Category` to make analysis on job titles easier. Given the arbitrary nature of this, it could potentially have an impact on the statistical power of our findings of `Job.Category` as a predictor of `Salary`.
 
 # Data Processing
 
