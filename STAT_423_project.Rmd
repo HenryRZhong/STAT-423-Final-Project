@@ -43,9 +43,9 @@ The dataset as sourced from Kaggle is generally clean and ready-to-use. However,
 
 ### Job Title Categorizing
 
-For our analysis of the Salary Dataframe, we wanted to do linear regression of the salary based on the type of job someone was employed in. The first instinct would be to use the `Job.Title` column of our dataframe. The problem with this approach is that there are way too many job titles that were listed in the data there were `r length((Salary_Data %>% count(Job.Title))$Job.Title)` different job titles listed in the dataset, which would make any categorical regression nigh impossible.
+For our analysis of `Salary_Data`, we wanted to do a linear regression of `Salary` based on the type of job someone was employed in. The first instinct would be to use the `Job.Title` column of our dataframe for analysis. The problem with this approach is that there are way too many job titles listed in the data. There are `r length((Salary_Data %>% count(Job.Title))$Job.Title)` different job titles, which would make any categorical regression nigh impossible.
 
-So we decided to categorize our job titles into different job categories which correspond to different kinds of jobs. The 5 levels for our `Job.Category` variable are `STEM, BUSINESS, ADMIN, SERVICE, and OTHER`. 
+Thus, we decided to categorize `Job.Title` into different categories which correspond to different kinds of jobs. The 5 levels for our new `Job.Category` variable are `STEM, BUSINESS, ADMIN, SERVICE, and OTHER`. 
 
 - `STEM` describes scientific and technical jobs, like computer programming, scientific research, and engineering. 
 
@@ -57,7 +57,7 @@ So we decided to categorize our job titles into different job categories which c
 
 - `OTHER` refers to jobs that don't fit any of the categories listed above
 
-To sort the majority of job titles, we did a content analysis of all the words contained in all the job titles to see which words were recurring. These key words were then coded and sorted into 1 of 5 job categories. We then created a function to check if a job title contained a key word from a list, and if it did it was sorted into that job category, if the job title didn't contain any of the keyword it was sorted into `OTHER` if the job title contained keywords from 2 or more categories it was temporarily sorted into the `OVERLAP` category. These jobs with overlap were then manually sorted based on which job category fit the best.
+To sort the majority of Job Titles, we did a content analysis of all the words contained in the `Job Title` levels to see which words were recurring. These key words were then coded and sorted into 1 of 5 job categories. We then created functions to check if a Job Title contained a key word from the designated list, and if it contained a keyword was sorted into that Job Category, if the Job Title didn't contain any of the keyword it was sorted into `OTHER` if the Job Title contained keywords from 2 or more categories it was temporarily sorted into the `OVERLAP` category. These jobs with overlap were then manually sorted based on which Job Category fit best.
 
 ```{r}
 # Job Category Word Lists
@@ -197,7 +197,7 @@ Job.Salary.fit <- lm(Salary ~ Job.Category + Years.of.Experience, data=Salary_Da
 summary(Job.Salary.fit)$coefficients
 ```
 
-Looking at the job category linear model `Job.Category` does appear to be a strong predictor of `Salary` with all levels appearing to be statistically significant without accounting for any Family-Wise Error Rate Corrections.
+Looking at the job category linear model `Job.Category` does appear to be a strong predictor of `Salary` with all levels appearing to be statistically significant.
 
 ### Education Levels Normalization
 
