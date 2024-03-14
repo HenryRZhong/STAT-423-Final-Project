@@ -291,7 +291,7 @@ Creating a quick linear model of Salary predicted by Age and Experience, we can 
 
 ```{r}
 AVE.lm2 <- lm(Years.of.Experience ~ Age, data = AgeVsExp)
-summary(AVE.lm2)
+summary(AVE.lm2)$coefficients
 ```
 Using R to create a linear regression between Age and Years of Experience we see that the t-test gives a very low p-value, less than 0.001. This means that there is strong evidence of a linear relationship between the two variables, matching all of our previous tests. We see that if Age increases by one, years of experience will increase by roughly 0.746. Thus, as we have statistically significant evidence of Age and Years of Experience being collinear, we will not have both of them in our final model.
 
@@ -384,7 +384,7 @@ The scatterplot does not show any clear differences between the linear trends of
 
 ```{r}
 lm.edu_yoe <- lm(Salary ~ Education*sqrt_yoe, data=Salary_Data)
-summary(lm.edu_yoe)
+summary(lm.edu_yoe)$coefficients
 ```
 
 ```{r}
