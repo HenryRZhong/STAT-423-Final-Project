@@ -23,9 +23,9 @@ Sophia Chiesa [sc933@uw.edu] – First author of Introduction, Education Level I
 
 # Introduction
 
-The world of career salaries, especially from the perspective of undergraduate students on the cusp of joining the full-time workforce, is complex and enigmatic. Due to the fact that so many hidden factors seem to impact a job’s salary, it can be difficult to develop a clear idea of how salaries of different jobs compare. In addition, we were curious how salaries vary over demographic groups such as gender and education level. Our overall goal is to develop a better understanding of the salary landscape of the current workforce.
+The world of career salaries, especially from the perspective of undergraduate students on the cusp of joining the full-time workforce, choosing a job can be a complex and enigmatic process. This is due to the fact that so many hidden factors seem to impact a job’s salary, and it can be difficult to develop a clear idea of how salaries of differ between jobs. In addition, we are curious how Salaries vary over demographic groups such as Gender and Education Level. Our overall goal is to develop a better understanding of the salary landscape of the current workforce.
 
-The questions our group sought to answer include, first and primarily, which factors are the strongest predictors of salary. Secondly, as both age and years of experience are included in the data, we wanted to see how collinear these columns are. Additionally, we want to investigate how big of an effect education level has on salary, especially with added years of experience.
+The questions our group seeks to answer include, first and primarily, which factors can predict Job Salary. Secondly, as both Age and Years of Experience are included in the data, we want to investigate collinearity of these predictors. Additionally, we want to investigate how big of an effect Education Level has on Salary, especially when considering Years of Experience in a particular job.
 
 # Data Description
 
