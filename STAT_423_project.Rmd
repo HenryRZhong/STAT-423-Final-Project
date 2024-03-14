@@ -8,7 +8,7 @@ knitr::opts_chunk$set(echo = FALSE, fig.width=7, fig.height=4)
 library(car)
 library(tidyverse)
 library(MASS)
-# library(ggridges)
+library(ggridges)
 Salary_Data <- read.csv("Salary_Data.csv")
 Salary_Data <- na.omit(Salary_Data)
 ```
@@ -407,7 +407,7 @@ plot(fit_interactions, which = 4)
 
 # Final model
 
-Based on all of our previous data, we decided to make our final model based on response variable Salary with predictors `Gender`, `sqrt(Education.Level)`, `Job.Category`, `Education.Level`, and interaction terms of `Education.Level` with the other three predictors, and the interaction term `Gender:sqrt(Education.Level)`. Running the stepwise AIC function, it removed the interaction term `Gender:sqrt(Education.Level)`.
+Based on all of our previous data, we decided to make our final model based on response variable Salary with predictors `Gender`, `sqrt(Years.of.Experience)`, `Job.Category`, `Education.Level`, and interaction terms of `Education.Level` with the other three predictors, and the interaction term `Gender:sqrt(Years.of.Experience)`. Running the stepwise AIC function, it removed the interaction term `Gender:sqrt(Years.of.Experience)`.
 
 ```{r}
 final.LM1 <- lm(Salary ~ Gender + sqrt_yoe + Job.Category + Education + Education:sqrt_yoe + Education:Job.Category + Education:Gender + Gender:sqrt_yoe, data = Salary_Data)
