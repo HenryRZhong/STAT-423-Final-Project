@@ -241,9 +241,9 @@ Salary_Data$Education <- schooling
 Salary_Data <- na.omit(Salary_Data)
 ```
 
-### NAs
+### Removings NAs
 
-Finally, there were only 6 rows of our 6704 with N/A or missing values, two of these being completely empty rows, one missing any education value, and the remaining three with N/A values in the salary and years of experience columns. These 6 rows were filtered out of our processed dataset.
+Finally, there were only 6 of 6704 observations with `NA` or missing values, two of them being completely empty rows, one missing an value for `Education.Levl`, and the remaining three with `NA` values in the `Salary` and `Years.of.Experience` columns. These 6 observations were omitted from our final data analysis.
 
 
 # Linearity check
