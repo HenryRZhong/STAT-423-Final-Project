@@ -39,7 +39,7 @@ Due to the `Job.Title` column having a large number of levels, we will be groupi
 
 # Data Processing
 
-The dataset as sourced from Kaggle is generally clean and ready-to-use. However, some data processing was needed for the job title and education level columns.
+The dataset as sourced from Kaggle is generally clean and ready-to-use. However, some data processing will be needed for the `Job.Title` and `Education.Level` columns.
 
 ### Job Title Categorizing
 
