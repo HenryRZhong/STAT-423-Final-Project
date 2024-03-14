@@ -246,9 +246,9 @@ Salary_Data <- na.omit(Salary_Data)
 Finally, there were only 6 of 6704 observations with `NA` or missing values, two of them being completely empty rows, one missing an value for `Education.Levl`, and the remaining three with `NA` values in the `Salary` and `Years.of.Experience` columns. These 6 observations were omitted from our final data analysis.
 
 
-# Linearity check
+# Linearity Check
 
-Before doing a linear model, we want to check that the predictors and response variables have a linear relationship. So, as age and experience are our numerical predictors, we will make a scatterplot of each of them compared to salary. Looking at the scaterplots, we see that they both appear to have a mostly linear relationship, so a linear model does make sense in this case. There may be some slight curvature, which we will explore with a square root transformation later on.
+Before doing a Linear Model, we want to check that our Predictors and Response variables have a linear relationship. So, since `Age` and `Years.of.Experience` are numerical predictors, a Scatterplot comparing them `Salary` can be made. Observing our Scatterplots, we see that they both appear to have a mostly linear relationship, so a linear model for these predictor makes sense. Since there is some slight curvature, which we will explore making square root transformations with these Predictors.
 
 ```{r}
 par(mfrow = c(1, 2))
